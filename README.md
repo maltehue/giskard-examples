@@ -16,7 +16,7 @@
   xhost -local:docker
   ```
 
-- Open Web browser and go to http://localhost:8888/
+- Open Web browser and go to http://localhost:8888/lab/tree/giskard_examples/notebooks/playground.ipynb
 
 - To stop and remove container:
 
@@ -26,7 +26,7 @@
 
 ### Option 2: Run on BinderHub
 
-https://binder.intel4coro.de/v2/gh/yxzhan/giskard-examples.git/HEAD
+https://binder.intel4coro.de/v2/gh/yxzhan/giskard-examples.git/main?labpath=%2Flab%2Ftree%2Fgiskard_examples%2Fnotebooks%2Fplayground.ipynb
 
 ## Tutorials of giskardpy
 

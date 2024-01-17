@@ -1,0 +1,39 @@
+<launch>
+
+    <arg name="web" default="true"/>
+    <arg name="gui" default="false"/>
+
+    <include file="$(find iai_boxy_description)/launch/upload_boxy.launch"/>
+
+    <node pkg="giskardpy" type="boxy_standalone.py" name="giskard" output="screen"/>
+
+    <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
+        <rosparam param="enable_self_collision">False</rosparam>
+        <rosparam param="interactive_marker_chains">
+            - [boxy_description/odom, boxy_description/base_footprint]
+            - [boxy_description/odom, boxy_description/triangle_base_link]
+            - [boxy_description/odom, boxy_description/neck_ee_link]
+            - [boxy_description/base_footprint, boxy_description/left_gripper_tool_frame]
+            - [boxy_description/odom, boxy_description/left_gripper_tool_frame]
+            - [boxy_description/odom, boxy_description/right_gripper_tool_frame]
+            - [boxy_description/left_gripper_base_link, boxy_description/left_gripper_finger_left_link]
+        </rosparam>
+    </node>
+
+    <!-- launch rvizweb on binder -->
+    <group if="$(arg web)">
+        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
+            <remap from="target_frame" to="/boxy_description/base_link" />
+            <remap from="topic_ns" to="/eef_control" />
+        </node>
+        <include file="$(find rvizweb)/launch/update_config.launch">
+            <arg name="config_file" value="$(dirname)/rvizweb_config/boxy.json" />
+        </include>
+    </group>
+
+    <!-- launch rivz locally -->
+    <group if="$(arg gui)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" />
+    </group>
+
+</launch>

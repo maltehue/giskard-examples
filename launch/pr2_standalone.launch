@@ -1,0 +1,35 @@
+<launch>
+    <arg name="web" default="true"/>
+    <arg name="gui" default="false"/>
+
+    <include file="$(find pr2_description)/robots/upload_pr2.launch"/>
+
+    <node pkg="giskardpy" type="pr2_standalone.py" name="giskard" output="screen"/>
+
+    <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
+        <rosparam param="enable_self_collision">False</rosparam>
+        <rosparam param="interactive_marker_chains">
+            - [odom_combined, pr2/r_gripper_tool_frame]
+            - [odom_combined, pr2/l_gripper_tool_frame]
+            - [odom_combined, pr2/base_footprint]
+            - [odom_combined, pr2/high_def_frame]
+        </rosparam>
+    </node>
+
+    <!-- launch rvizweb on binder -->
+    <group if="$(arg web)">
+        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
+            <remap from="target_frame" to="/pr2/base_link" />
+            <remap from="topic_ns" to="/eef_control" />
+        </node>
+        <include file="$(find rvizweb)/launch/update_config.launch">
+            <arg name="config_file" value="$(dirname)/rvizweb_config/pr2.json" />
+        </include>
+    </group>
+
+    <!-- launch rivz locally -->
+    <group if="$(arg gui)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" />
+    </group>
+
+</launch>

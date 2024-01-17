@@ -1,0 +1,34 @@
+<launch>
+    <arg name="web" default="true"/>
+    <arg name="gui" default="false"/>
+
+    <include file="$(find iai_donbot_description)/launch/upload.launch"/>
+
+    <node pkg="giskardpy" type="donbot_standalone.py" name="giskard" output="screen"/>
+
+    <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
+        <rosparam param="enable_self_collision">False</rosparam>
+        <rosparam param="interactive_marker_chains">
+            - [iai_donbot/odom, iai_donbot/gripper_tool_frame]
+            - [iai_donbot/ur5_shoulder_link, iai_donbot/camera_link]
+            - [iai_donbot/odom, iai_donbot/base_footprint]
+        </rosparam>
+    </node>
+
+    <!-- launch rvizweb on binder -->
+    <group if="$(arg web)">
+        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
+            <remap from="target_frame" to="/iai_donbot/base_link" />
+            <remap from="topic_ns" to="/eef_control" />
+        </node>
+        <include file="$(find rvizweb)/launch/update_config.launch">
+            <arg name="config_file" value="$(dirname)/rvizweb_config/donbot.json" />
+        </include>
+    </group>
+
+    <!-- launch rivz locally -->
+    <group if="$(arg gui)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" />
+    </group>
+
+</launch>

@@ -2,6 +2,11 @@ FROM intel4coro/base-notebook:20.04-noetic-full-xpra
 
 RUN pip uninstall -y jlab-enhanced-cell-toolbar
 RUN pip install https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.2.tar.gz
+RUN pip install \
+  jupyterlab-unfold \
+  jupyterlab-search-replace \
+  jupyter-archive  \
+  jupyterlab_execute_time
 
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros

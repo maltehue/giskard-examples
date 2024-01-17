@@ -1,0 +1,36 @@
+<launch>
+
+    <arg name="web" default="true"/>
+    <arg name="gui" default="false"/>
+
+    <include file="$(find armar_description)/launch/armar6_upload.launch"/>
+
+    <node pkg="giskardpy" type="armar_standalone.py" name="giskard" output="screen"/>
+
+    <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
+        <rosparam param="enable_self_collision">False</rosparam>
+        <rosparam param="interactive_marker_chains">
+            - [odom, armar6/Roboception]
+            - [map, armar6/Platform]
+            - [map, armar6/Hand R Palm]
+            - [map, armar6/Hand L Palm]
+        </rosparam>
+    </node>
+
+    <!-- launch rvizweb on binder -->
+    <group if="$(arg web)">
+        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
+            <remap from="target_frame" to="/armar6/base_link" />
+            <remap from="topic_ns" to="/eef_control" />
+        </node>
+        <include file="$(find rvizweb)/launch/update_config.launch">
+            <arg name="config_file" value="$(dirname)/rvizweb_config/armar.json" />
+        </include>
+    </group>
+
+    <!-- launch rivz locally -->
+    <group if="$(arg gui)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" />
+    </group>
+
+</launch>

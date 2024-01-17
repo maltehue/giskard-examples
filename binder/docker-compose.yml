@@ -12,9 +12,9 @@ services:
     privileged: true
     # user: root
     command: jupyter lab --allow-root --NotebookApp.token='' --no-browser --ip=0.0.0.0
-    entrypoint: ["/home/jovyan/work/binder/entrypoint.sh"]
+    entrypoint: ["/home/jovyan/giskard_examples/binder/entrypoint.sh"]
     volumes:
-      - ../:/home/jovyan/work
+      - ../:/home/jovyan/giskard_examples
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     environment:
       - DISPLAY
