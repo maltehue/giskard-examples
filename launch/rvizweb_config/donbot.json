@@ -39,7 +39,7 @@
       "type": "grid"
     },
     {
-      "isShown": true,
+      "isShown": false,
       "name": "Ghost",
       "options": {
         "topic": "/giskard/visualization_marker_array"

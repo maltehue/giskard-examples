@@ -1,7 +1,7 @@
 {
   "globalOptions": {
     "background": "#333333",
-    "fixedFrame": "/map"
+    "fixedFrame": "/tracy/world"
   },
   "sidebarOpened": false,
   "viewerOptions": {

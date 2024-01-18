@@ -3,10 +3,6 @@ repositories:
     type: git
     url: http://github.com/code-iai/iai_robots.git
     version: master
-  # iai_pr2:
-  #   type: git
-  #   url: https://github.com/code-iai/iai_pr2.git
-  #   version: master
   pr2_common:
     type: git
     url: https://github.com/PR2/pr2_common.git
@@ -19,10 +15,6 @@ repositories:
     type: git
     url: https://github.com/code-iai/iai_tiago.git
     version: main
-  # iai_donbot:
-  #   type: git
-  #   url: https://github.com/code-iai/iai_donbot.git
-  #   version: master
   iai_hsr:
     type: git
     url: https://github.com/code-iai/iai_hsr.git
@@ -31,14 +23,18 @@ repositories:
     type: git
     url: https://github.com/code-iai/iai_tracy.git
     version: main
+  robotiq_2finger_grippers:
+    type: git
+    url: https://github.com/Danfoa/robotiq_2finger_grippers.git
+    version: master
   iai_boxy:
     type: git
     url: https://github.com/code-iai/iai_boxy.git
     version: master
-  # armar6_description:
-  #   type: git
-  #   url: https://github.com/cram2/armar6_description.git
-  #   version: main
+  armar6_description:
+    type: git
+    url: https://github.com/cram2/armar6_description.git
+    version: main
   kdl_ik_services:
     type: git
     url: https://github.com/cram2/kdl_ik_service.git

@@ -11,6 +11,7 @@ services:
       - 8888:8888
     privileged: true
     # user: root
+    working_dir: /home/jovyan/
     command: jupyter lab --allow-root --NotebookApp.token='' --no-browser --ip=0.0.0.0
     entrypoint: ["/home/jovyan/giskard_examples/binder/entrypoint.sh"]
     volumes:

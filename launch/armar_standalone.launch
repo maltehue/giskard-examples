@@ -1,9 +1,11 @@
 <launch>
 
     <arg name="web" default="true"/>
-    <arg name="gui" default="false"/>
+    <arg name="gui" default="true"/>
 
-    <include file="$(find armar_description)/launch/armar6_upload.launch"/>
+    <!-- <include file="$(find armar_description)/launch/armar6_upload.launch"/> -->
+
+    <param name="robot_description" command="xacro '$(find armar6_description)/urdf/armar6.urdf'" />
 
     <node pkg="giskardpy" type="armar_standalone.py" name="giskard" output="screen"/>
 
