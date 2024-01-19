@@ -3,7 +3,6 @@
     "name": "rvizweb",
     "title": "Rvizweb",
     "url": "proxy/8001/rvizweb/webapps/rvizweb/build/www/index.html",
-    "mode": "split-right",
     "start": true
   },
   {

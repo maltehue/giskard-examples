@@ -40,6 +40,15 @@
     },
     {
       "isShown": true,
+      "name": "Robot model",
+      "options": {
+        "param": "robot_description",
+        "tfPrefix": "tracy"
+      },
+      "type": "urdf"
+    },
+    {
+      "isShown": true,
       "name": "Ghost",
       "options": {
         "topic": "/giskard/visualization_marker_array"
@@ -53,15 +62,6 @@
         "topic": "/eef_control"
       },
       "type": "interactiveMarkers"
-    },
-    {
-      "isShown": true,
-      "name": "Robot model",
-      "options": {
-        "param": "robot_description",
-        "tfPrefix": "tracy"
-      },
-      "type": "urdf"
     }
   ]
 }

@@ -2,11 +2,12 @@ FROM intel4coro/base-notebook:20.04-noetic-full-xpra
 
 RUN pip uninstall -y jlab-enhanced-cell-toolbar
 RUN pip install https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.3.tar.gz
-RUN mamba install -y ripgrep
+RUN mamba install -y ripgrep jupyterlab-blockly
 RUN pip install \
   jupyterlab-unfold \
   jupyterlab-search-replace \
   jupyter-archive  \
+  jupyterlab-language-pack-de-DE  \
   jupyterlab_execute_time
 
 # Initiate ROS workspace 
@@ -47,11 +48,10 @@ ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:
 
 # Build ROS workspace
 WORKDIR  ${ROS_WS}
-# Update RvizWeb
-# RUN rm -rf build/rvizweb \
-#   && cd src/rvizweb \
-#   && git pull
 RUN catkin build
+
+# Update RvizWeb
+RUN cd ${ROS_WS}/src/rvizweb && git pull
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
