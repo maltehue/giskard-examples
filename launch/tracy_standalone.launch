@@ -17,7 +17,7 @@
     <!-- launch rvizweb on binder -->
     <group if="$(arg web)">
         <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
-            <remap from="target_frame" to="/tracy/base_link" />
+            <remap from="target_frame" to="/tracy/world" />
             <remap from="topic_ns" to="/eef_control" />
         </node>
         <include file="$(find rvizweb)/launch/update_config.launch">
