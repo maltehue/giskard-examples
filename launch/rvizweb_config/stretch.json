@@ -1,0 +1,67 @@
+{
+  "globalOptions": {
+    "background": "#333333",
+    "fixedFrame": "/map"
+  },
+  "sidebarOpened": false,
+  "viewerOptions": {
+    "camera": {
+      "position": {
+        "x": 3,
+        "y": 0,
+        "z": 3
+      }
+    },
+    "cameraControls": {
+      "center": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "directionalLight": {
+      "position": {
+        "x": -3,
+        "y": -3,
+        "z": 5
+      }
+    }
+  },
+  "displays": [
+    {
+      "isShown": true,
+      "name": "Grid",
+      "options": {
+        "cellSize": "1",
+        "color": "#888888",
+        "numCells": "10"
+      },
+      "type": "grid"
+    },
+    {
+      "isShown": true,
+      "name": "Robot model",
+      "options": {
+        "param": "robot_description",
+        "tfPrefix": "stretch"
+      },
+      "type": "urdf"
+    },
+    {
+      "isShown": true,
+      "name": "Ghost",
+      "options": {
+        "topic": "/giskard/visualization_marker_array"
+      },
+      "type": "markerArray"
+    },
+    {
+      "isShown": true,
+      "name": "Interactive Markers",
+      "options": {
+        "topic": "/eef_control"
+      },
+      "type": "interactiveMarkers"
+    }
+  ]
+}

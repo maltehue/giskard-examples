@@ -64,3 +64,19 @@ COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
+
+# === Add Stretch robot from giskard:devel ===
+# === (To be deleted after stretch add to giskard:master) ===
+
+WORKDIR  ${ROS_WS}/src/giskardpy
+ARG GISKARD_COMMIT_PREFIX=https://raw.githubusercontent.com/SemRoCo/giskardpy/ee1daaf2cfdf70c9981d63f6a7dfd5b4626b77ff
+RUN cd src/giskardpy/configs/iai_robots && \
+  wget ${GISKARD_COMMIT_PREFIX}/src/giskardpy/configs/iai_robots/stretch.py
+RUN cd self_collision_matrices/iai && \
+  wget ${GISKARD_COMMIT_PREFIX}/self_collision_matrices/iai/stretch.srdf
+RUN cd scripts/iai_robots && \
+  mkdir stretch && \
+  wget ${GISKARD_COMMIT_PREFIX}/scripts/iai_robots/stretch/stretch_standalone.py && \
+  chmod +x stretch_standalone.py
+
+# === End ===

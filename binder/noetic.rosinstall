@@ -31,6 +31,10 @@ repositories:
     type: git
     url: https://github.com/code-iai/iai_boxy.git
     version: master
+  stretch_ros:
+    type: git
+    url: https://github.com/hello-robot/stretch_ros.git
+    version: noetic
   armar6_description:
     type: git
     url: https://github.com/cram2/armar6_description.git
