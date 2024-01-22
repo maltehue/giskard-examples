@@ -79,5 +79,5 @@ RUN cd scripts/iai_robots && \
   mkdir stretch && \
   wget ${GISKARD_COMMIT_PREFIX}/scripts/iai_robots/stretch/stretch_standalone.py && \
   chmod +x stretch_standalone.py
-
+WORKDIR /home/${NB_USER}/giskard_examples
 # === End ===
