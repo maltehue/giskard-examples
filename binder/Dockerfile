@@ -61,6 +61,7 @@ WORKDIR /home/${NB_USER}/giskard_examples
 RUN git config --global --add safe.directory ${PWD}
 RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
+COPY --chown=${NB_USER}:users binder/jupyter-settings.json /opt/conda/share/jupyter/lab/settings/overrides.json
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]

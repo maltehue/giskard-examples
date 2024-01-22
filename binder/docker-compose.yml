@@ -1,6 +1,6 @@
 version: '3'
 services:
-  pycram:
+  giskard-example:
     image: giskard-example:main
     build:
       context: ../
