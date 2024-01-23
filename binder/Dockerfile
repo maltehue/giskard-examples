@@ -79,7 +79,7 @@ RUN cd src/giskardpy/configs/iai_robots && \
 RUN cd self_collision_matrices/iai && \
   wget ${GISKARD_COMMIT_PREFIX}/self_collision_matrices/iai/stretch.srdf
 RUN cd scripts/iai_robots && \
-  mkdir stretch && \
+  mkdir stretch && cd stretch && \
   wget ${GISKARD_COMMIT_PREFIX}/scripts/iai_robots/stretch/stretch_standalone.py && \
   chmod +x stretch_standalone.py
 WORKDIR /home/${NB_USER}/giskard_examples
