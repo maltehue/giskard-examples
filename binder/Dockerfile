@@ -1,9 +1,12 @@
 FROM intel4coro/base-notebook:20.04-noetic-full-xpra
 
 RUN pip uninstall -y jlab-enhanced-cell-toolbar
-RUN pip install https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.3.tar.gz
+RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/dist/jupyterlab_rviz-0.3.2.tar.gz \
+  https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.3.tar.gz
 RUN mamba install -y ripgrep jupyterlab-blockly
-RUN pip install \
+RUN pip install --upgrade \
+  sidecar \
+  jupyterlab-git \
   jupyterlab-unfold \
   jupyterlab-search-replace \
   jupyter-archive  \
