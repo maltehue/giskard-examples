@@ -50,8 +50,8 @@ repositories:
   giskardpy:
     type: git
     url: https://github.com/SemRoCo/giskardpy.git
-    version: v0.6.0
+    version: mujoco_actions_devel
   giskard_msgs:
     type: git
     url: https://github.com/SemRoCo/giskard_msgs.git
-    version: v0.5.1
+    version: devel
