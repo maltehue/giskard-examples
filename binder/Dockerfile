@@ -11,7 +11,6 @@ RUN pip install --upgrade \
   jupyterlab-unfold \
   jupyter-archive \
   jupyterlab-search-replace \
-  jupyterlab-spellchecker \
   jupyter-offlinenotebook \
   jupyter-collaboration \
   jupyterlab-language-pack-de-DE  \
