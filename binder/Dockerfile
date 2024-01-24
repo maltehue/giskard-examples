@@ -2,16 +2,24 @@ FROM intel4coro/base-notebook:20.04-noetic-full-xpra
 
 RUN pip uninstall -y jlab-enhanced-cell-toolbar
 RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/dist/jupyterlab_rviz-0.3.2.tar.gz \
-  https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.3.tar.gz
-RUN mamba install -y ripgrep jupyterlab-blockly
+  https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.4.tar.gz
+RUN mamba install -y ripgrep
 RUN pip install --upgrade \
   sidecar \
+  mujoco \
   jupyterlab-git \
   jupyterlab-unfold \
+  jupyter-archive \
   jupyterlab-search-replace \
-  jupyter-archive  \
+  jupyterlab-spellchecker \
+  jupyter-offlinenotebook \
+  jupyter-collaboration \
   jupyterlab-language-pack-de-DE  \
   jupyterlab_execute_time
+
+USER root
+RUN apt update && apt install -y ffmpeg
+USER ${NB_USER}
 
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
