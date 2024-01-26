@@ -1,0 +1,55 @@
+<launch>
+    <arg name="web" default="true"/>
+    <arg name="gui" default="false"/>
+    <arg name="mujoco_suffix" default=""/>
+
+    <!-- roslaunch hsr_mujoco hsrb4s_sim.launch  -->
+    <arg name="namespace" default="hsrb4s" />
+    <arg name="world" default="$(find hsr_mujoco)/model/world.xml" />
+
+    <group ns="$(arg namespace)">
+        <include file="$(find mujoco_sim)/launch/mujoco_sim$(arg mujoco_suffix).launch">
+            <arg name="config" value="$(find hsr_mujoco)/config/hsrb4s.yaml" />
+            <arg name="robot" value="$(find hsr_mujoco)/model/hsrb4s.xml" />
+            <arg name="world" value="$(arg world)" />
+        </include>
+    </group>
+
+    <group ns="$(arg namespace)">
+        <param name="robot_description" command="$(find xacro)/xacro $(find hsr_description)/robots/hsrb4s.urdf" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+        <include file="$(find hsr_control)/launch/hsr_velocity_controllers.launch" />
+        <!--<node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" />-->
+        <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find hsr_mujoco)/rviz_config/rviz_config.rviz" />-->
+    </group>
+
+    <!-- roslaunch giskardpy giskardpy_hsr_mujoco.launch -->
+    <node pkg="giskardpy" type="iai_hsr_mujoco.py" name="giskard" output="screen"/>
+    
+    <!-- <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
+      <rosparam param="enable_self_collision">False</rosparam>
+      <rosparam param="interactive_marker_chains">
+        - [odom, hsrb/base_footprint]
+        - [odom, hsrb/head_rgbd_sensor_link]
+        - [odom, hsrb/hand_palm_link]
+      </rosparam>
+    </node> -->
+
+    <!-- launch rvizweb on binder -->
+    <group if="$(arg web)">
+        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
+            <remap from="target_frame" to="/base_link" />
+            <remap from="topic_ns" to="/eef_control" />
+        </node>
+        <include file="$(find rvizweb)/launch/update_config.launch">
+            <arg name="config_file" value="$(dirname)/rvizweb_config/hsr_mujoco.json" />
+        </include>
+    </group>
+
+    <!-- launch rivz locally -->
+    <group if="$(arg gui)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" />
+    </group>
+
+</launch>
