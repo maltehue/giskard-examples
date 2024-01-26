@@ -62,14 +62,6 @@
         "topic": "/mujoco/visualization_marker_array"
       },
       "type": "markerArray"
-    },
-    {
-      "isShown": true,
-      "name": "Interactive Markers",
-      "options": {
-        "topic": "/eef_control"
-      },
-      "type": "interactiveMarkers"
     }
   ]
 }

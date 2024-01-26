@@ -4,14 +4,13 @@
     <arg name="mujoco_suffix" default=""/>
 
     <!-- roslaunch hsr_mujoco hsrb4s_sim.launch  -->
+   <node pkg="tf" type="static_transform_publisher" name="fake_odometry" output="screen" args="0 0 0 0 0 0 1 map odom 10" /> 
     <arg name="namespace" default="hsrb4s" />
-    <arg name="world" default="$(find hsr_mujoco)/model/world.xml" />
-
-    <group ns="$(arg namespace)">
+    <group ns="hsrb4s">
         <include file="$(find mujoco_sim)/launch/mujoco_sim$(arg mujoco_suffix).launch">
             <arg name="config" value="$(find hsr_mujoco)/config/hsrb4s.yaml" />
-            <arg name="robot" value="$(find hsr_mujoco)/model/hsrb4s.xml" />
-            <arg name="world" value="$(arg world)" />
+            <arg name="robot" value="$(find hsr_mujoco)/model/hsrb4s_cup.xml" />
+            <arg name="world" value="$(find hsr_mujoco)/model/world_containers.xml" />
         </include>
     </group>
 
@@ -38,10 +37,10 @@
 
     <!-- launch rvizweb on binder -->
     <group if="$(arg web)">
-        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
+        <!-- <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
             <remap from="target_frame" to="/base_link" />
             <remap from="topic_ns" to="/eef_control" />
-        </node>
+        </node> -->
         <include file="$(find rvizweb)/launch/update_config.launch">
             <arg name="config_file" value="$(dirname)/rvizweb_config/hsr_mujoco.json" />
         </include>
