@@ -1,57 +1,46 @@
-repositories:
-  iai_robots:
-    type: git
-    url: http://github.com/code-iai/iai_robots.git
-    version: master
-  pr2_common:
-    type: git
-    url: https://github.com/PR2/pr2_common.git
-    version: b34703bcca2b07cadbc3777d3c504c232a0c0c28
-  pr2_kinematics:
-    type: git
-    url: https://github.com/PR2/pr2_kinematics.git
-    version: kinetic-devel
-  iai_tiago:
-    type: git
-    url: https://github.com/code-iai/iai_tiago.git
-    version: main
-  iai_hsr:
-    type: git
-    url: https://github.com/code-iai/iai_hsr.git
-    version: main
-  iai_tracy:
-    type: git
-    url: https://github.com/code-iai/iai_tracy.git
-    version: main
-  robotiq_2finger_grippers:
-    type: git
-    url: https://github.com/Danfoa/robotiq_2finger_grippers.git
-    version: master
-  iai_boxy:
-    type: git
-    url: https://github.com/code-iai/iai_boxy.git
-    version: master
-  stretch_ros:
-    type: git
-    url: https://github.com/hello-robot/stretch_ros.git
-    version: noetic
-  armar6_description:
-    type: git
-    url: https://github.com/cram2/armar6_description.git
-    version: main
-  kdl_ik_services:
-    type: git
-    url: https://github.com/cram2/kdl_ik_service.git
-    verison: master
-  orocos_kinematics_dynamics:
-    type: git
-    url: https://github.com/orocos/orocos_kinematics_dynamics.git
-    version: v1.5.1
-  giskardpy:
-    type: git
-    url: https://github.com/SemRoCo/giskardpy.git
+- git:
+    local-name: giskardpy
+    uri: https://github.com/SemRoCo/giskardpy.git
     version: mujoco_actions_devel
-  giskard_msgs:
-    type: git
-    url: https://github.com/SemRoCo/giskard_msgs.git
+- git: 
+    local-name: giskard_msgs
+    uri: https://github.com/SemRoCo/giskard_msgs.git
     version: devel
+- git:
+    local-name: qpoases
+    uri: https://github.com/SemRoCo/qpOASES.git
+    version: v3.2.1
+- git:
+    local-name: orocos_kinematics_dynamics
+    uri: https://github.com/orocos/orocos_kinematics_dynamics.git
+    version: v1.5.1
+- git:
+    local-name: ros_controllers
+    uri: https://github.com/ros-controls/ros_controllers.git
+    version: noetic-devel
+- git:
+    local-name: iai_pr2
+    uri: https://github.com/code-iai/iai_pr2.git
+    version:  mujoco_sim_setup
+- git: 
+    local-name: iai_naive_kinematics_sim
+    uri: https://github.com/code-iai/iai_naive_kinematics_sim.git
+    version: master
+- git: 
+    local-name: omni_pose_follower
+    uri: https://github.com/code-iai/omni_pose_follower.git
+    version: master
+- git:
+    local-name: mujoco_msgs
+    uri: https://github.com/HoangGiang93/mujoco_msgs.git
+- git:
+    local-name: mujoco_sim
+    uri: https://github.com/HoangGiang93/mujoco_sim.git
+# Can not merge the the following repo because of the SSH urls in the .gitmodules file
+# - git:
+#     local-name: mujoco_robots
+#     uri: https://github.com/maltehue/mujoco_robots.git
+#     version: main
+# - git:
+#     local-name: mujoco_world
+#     uri: https://github.com/HoangGiang93/mujoco_world.git

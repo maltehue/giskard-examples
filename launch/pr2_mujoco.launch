@@ -1,0 +1,61 @@
+<launch>
+    <arg name="web" default="true"/>
+    <arg name="gui" default="false"/>
+    <arg name="mujoco_suffix" default=""/>
+
+    <!-- From iai_pr2_sim mujoco.launch -->
+    <arg name="namespace" default="pr2" />
+    <include file="$(find iai_pr2_description)/launch/upload_pr2_calibrated_with_ft2.launch" />
+
+    <node pkg="iai_naive_kinematics_sim" type="map_odom_transform_publisher.py" name="map_odom_transform_publisher" output="screen">
+        <param name="parent_frame" value="map" />
+        <param name="child_frame" value="odom_combined" />
+    </node>
+
+    <group ns="$(arg namespace)">
+        <include file="$(find mujoco_sim)/launch/mujoco_sim$(arg mujoco_suffix).launch">
+            <arg name="robot" value="$(find iai_pr2_description)/robots/pr2_calibrated_with_ft2_without_virtual_joints.urdf" />
+            <arg name="use_urdf" value="true" />
+            <arg name="config" value="$(find iai_pr2_sim)/config/mujoco_config.yaml" />
+            <arg name="world" value="$(find iai_pr2_sim)/config/mujoco_world.xml" />
+            <arg name="disable_parent_child_collision_level" value="2" />
+        </include>
+        <rosparam command="load" file="$(find iai_pr2_sim)/config/ros_control_sim_mujoco.yaml" />
+        <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="spawn
+        joint_state_controller 
+        whole_body_controller 
+        l_gripper_l_finger_controller
+        r_gripper_l_finger_controller" />
+        <!-- <node name="rqt_joint_trajectory_controller" pkg="rqt_joint_trajectory_controller" type="rqt_joint_trajectory_controller" /> -->
+    </group>
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+        <rosparam param="source_list">
+        - pr2/joint_states
+        </rosparam>
+        <param name="rate" value="60" />
+        <param name="use_gui" value="False" />
+    </node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+
+    <!-- iai_pr2_sim mujoco.launch -->
+    <include file="$(find giskardpy)/launch/giskardpy_pr2_mujoco.launch" />
+
+    <!-- launch rvizweb on binder -->
+    <group if="$(arg web)">
+        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
+            <remap from="target_frame" to="/base_link" />
+            <remap from="topic_ns" to="/eef_control" />
+        </node>
+        <include file="$(find rvizweb)/launch/update_config.launch">
+            <arg name="config_file" value="$(dirname)/rvizweb_config/pr2_mujoco.json" />
+        </include>
+    </group>
+
+    <!-- launch rivz locally -->
+    <group if="$(arg gui)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" />
+    </group>
+
+</launch>

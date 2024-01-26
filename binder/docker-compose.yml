@@ -1,7 +1,7 @@
 version: '3'
 services:
   giskard-example:
-    image: giskard-example:main
+    image: giskard-example:mujoco_actions_devels
     build:
       context: ../
       dockerfile: ./binder/Dockerfile
@@ -9,6 +9,7 @@ services:
     tty: true
     ports: 
       - 8888:8888
+      # - 11311:11311
     privileged: true
     # user: root
     working_dir: /home/jovyan/

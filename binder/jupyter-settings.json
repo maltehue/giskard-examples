@@ -2,5 +2,19 @@
   "@jupyterlab/apputils-extension:themes": {
     "theme": "JupyterLab Light",
     "theme-scrollbars": true
+  },
+  "@jupyterlab/apputils-extension:notification": {
+    "checkForUpdates": false,
+    "doNotDisturbMode": true,
+    "fetchNews": "none"
+  },
+  "@jupyterlab/filebrowser-extension:browser": {
+    "showHiddenFiles": true
+  },
+  "@jupyterlab/codemirror-extension:plugin": {
+    "defaultConfig": {
+      "codeFolding": true,
+      "lineWrap": false
+    }
   }
 }

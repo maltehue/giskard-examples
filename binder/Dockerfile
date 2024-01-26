@@ -6,39 +6,47 @@ RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/
 RUN mamba install -y ripgrep
 RUN pip install --upgrade \
   sidecar \
-  mujoco \
+  Cython \
   jupyterlab-git \
   jupyterlab-unfold \
   jupyter-archive \
   jupyterlab-search-replace \
   jupyter-offlinenotebook \
-  jupyter-collaboration \
   jupyterlab-language-pack-de-DE  \
   jupyterlab_execute_time
-
-USER root
-RUN apt update && apt install -y ffmpeg
-USER ${NB_USER}
 
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
 WORKDIR ${ROS_WS}/src
+# A Workaround for fixing the issue of RvizWeb loading meshes with "file:///" path instead of "package:///".
 COPY --chown=${NB_USER}:users binder/me ${ROS_WS}/src/me
-RUN pip install vcstool
 COPY --chown=${NB_USER}:users binder/noetic.rosinstall /home/${NB_USER}/noetic.rosinstall
-RUN vcs import --input /home/${NB_USER}/noetic.rosinstall --recursive
+RUN wstool merge /home/${NB_USER}/noetic.rosinstall \
+  && wstool update
+# Clone repos with git ssh url in .gitmodules
+RUN git clone https://github.com/maltehue/mujoco_robots.git \
+  && cd mujoco_robots \
+  && perl -i -p -e 's|git@(.*?):|https://\1/|g' .gitmodules \
+  && git submodule sync \
+  && git submodule update --init
+RUN git clone https://github.com/HoangGiang93/mujoco_world.git \
+  && cd mujoco_world \
+  && perl -i -p -e 's|git@(.*?):|https://\1/|g' .gitmodules \
+  && git submodule sync \
+  && git submodule update --init
 
 # Install dependencies
 WORKDIR  ${ROS_WS}
 USER root
 RUN rosdep update && apt update && apt dist-upgrade -y \
   && rosdep install -y --ignore-src --from-paths ./ -r \
-  && rosdep fix-permissions
+  && rosdep fix-permissions \
+  && apt install -y ffmpeg libglfw3 libglfw3-dev
 USER ${NB_USER}
 RUN pip install -r src/giskardpy/requirements.txt
 
-# Install missing python packages (should be included in giskardpy/requirements.txt)
-RUN pip install termcolor pydot
+# Install missing python packages (should be included in requirements.txt)
+RUN pip install termcolor pydot triangle cython~=0.19
 
 # Building Custom bullet3 from source with Python 3.10 (in a clumsy way)
 WORKDIR /home/${NB_USER}
@@ -58,10 +66,8 @@ ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:
 
 # Build ROS workspace
 WORKDIR  ${ROS_WS}
+RUN rm -rf src/iai_pr2/iai_pr2_donbot
 RUN catkin build
-
-# Update RvizWeb
-RUN cd ${ROS_WS}/src/rvizweb && git pull
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
