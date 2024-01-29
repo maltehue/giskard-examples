@@ -48,7 +48,7 @@
       "type": "urdf"
     },
     {
-      "isShown": true,
+      "isShown": false,
       "name": "giskard vis",
       "options": {
         "topic": "/giskard/visualization_marker_array"
@@ -62,6 +62,14 @@
         "topic": "/mujoco/visualization_marker_array"
       },
       "type": "markerArray"
+    },
+    {
+      "isShown": true,
+      "name": "Interactive Markers",
+      "options": {
+        "topic": "/eef_control"
+      },
+      "type": "interactiveMarkers"
     }
   ]
 }
