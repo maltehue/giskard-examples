@@ -48,14 +48,6 @@
       "type": "urdf"
     },
     {
-      "isShown": false,
-      "name": "giskard vis",
-      "options": {
-        "topic": "/giskard/visualization_marker_array"
-      },
-      "type": "markerArray"
-    },
-    {
       "isShown": true,
       "name": "mujoco vis",
       "options": {
