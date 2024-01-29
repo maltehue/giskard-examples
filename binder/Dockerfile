@@ -28,12 +28,12 @@ RUN git clone https://github.com/maltehue/mujoco_robots.git \
   && cd mujoco_robots \
   && perl -i -p -e 's|git@(.*?):|https://\1/|g' .gitmodules \
   && git submodule sync \
-  && git submodule update --init
+  && git submodule update --init --recursive
 RUN git clone https://github.com/HoangGiang93/mujoco_world.git \
   && cd mujoco_world \
   && perl -i -p -e 's|git@(.*?):|https://\1/|g' .gitmodules \
   && git submodule sync \
-  && git submodule update --init
+  && git submodule update --init --recursive
 
 # Install dependencies
 WORKDIR  ${ROS_WS}

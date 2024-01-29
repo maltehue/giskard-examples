@@ -3,7 +3,9 @@
     <arg name="web" default="true"/>
     <arg name="gui" default="false"/>
 
-    <include file="$(find hsr_description)/launch/upload_hsrb.launch"/>
+    <!-- <include file="$(find hsr_description)/launch/upload_hsrb.launch"/> -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find hsr_description)/robots/hsrb4s.urdf" />
+
     <node pkg="giskardpy" type="hsr_standalone.py" name="giskard" output="screen"/>
 
     <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">

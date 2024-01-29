@@ -39,7 +39,7 @@
       "type": "grid"
     },
     {
-      "isShown": true,
+      "isShown": false,
       "name": "Robot model",
       "options": {
         "param": "robot_description",
@@ -56,7 +56,7 @@
       "type": "markerArray"
     },
     {
-      "isShown": true,
+      "isShown": false,
       "name": "Interactive Markers",
       "options": {
         "topic": "/eef_control"
