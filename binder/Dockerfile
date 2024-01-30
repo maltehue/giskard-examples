@@ -85,3 +85,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
 RUN cd ${ROS_WS}/src/rvizweb && git pull
+RUN pip install jupyter-collaboration
