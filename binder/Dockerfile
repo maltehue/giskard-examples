@@ -72,9 +72,7 @@ RUN catkin build
 RUN cd ${ROS_WS}/src/rvizweb && git pull
 RUN pip install --upgrade \
   jupyter-collaboration \
-  jupyter-ai \
-  jupyter-server-ydoc \
-  jupyter-ydoc
+  jupyter-ai
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
