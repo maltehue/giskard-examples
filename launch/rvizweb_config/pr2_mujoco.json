@@ -49,9 +49,17 @@
     },
     {
       "isShown": true,
-      "name": "Ghost",
+      "name": "giskard vis",
       "options": {
         "topic": "/giskard/visualization_marker_array"
+      },
+      "type": "markerArray"
+    },
+    {
+      "isShown": true,
+      "name": "mujoco vis",
+      "options": {
+        "topic": "/mujoco/visualization_marker_array"
       },
       "type": "markerArray"
     },
