@@ -72,7 +72,13 @@ RUN catkin build
 RUN cd ${ROS_WS}/src/rvizweb && git pull
 RUN pip install --upgrade \
   jupyter-collaboration \
+  openai \
   jupyter-ai
+
+# Chatbot configs
+COPY --chown=${NB_USER}:users binder/jupyter-ai.json /home/${NB_USER}/.local/share/jupyter/jupyter_ai/config.json
+ENV OPENAI_API_BASE="http://192.168.240.1:5002"
+ENV OPENAI_API_KEY="sk-4e6e40294b4da6fd87ddc0a4aae645a4"
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
