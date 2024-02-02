@@ -5,8 +5,8 @@
   },
   "@jupyterlab/apputils-extension:notification": {
     "checkForUpdates": false,
-    "doNotDisturbMode": true,
-    "fetchNews": "none"
+    "doNotDisturbMode": false,
+    "fetchNews": false
   },
   "@jupyterlab/filebrowser-extension:browser": {
     "showHiddenFiles": true

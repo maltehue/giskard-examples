@@ -16,12 +16,9 @@
 
     <!-- launch rvizweb on binder -->
     <group if="$(arg web)">
-        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
-            <remap from="target_frame" to="/stretch/base_link" />
-            <remap from="topic_ns" to="/eef_control" />
-        </node>
-        <include file="$(find rvizweb)/launch/update_config.launch">
-            <arg name="config_file" value="$(dirname)/rvizweb_config/stretch.json" />
+        <include file="$(dirname)/rvizweb_config.launch">
+            <arg name="client_config" value="$(dirname)/rvizweb_config/stretch.json" />
+            <arg name="target_frame" default="/stretch/base_link"/>
         </include>
     </group>
 

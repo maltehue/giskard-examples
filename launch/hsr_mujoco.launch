@@ -8,7 +8,9 @@
     <arg name="namespace" default="hsrb4s" />
     <group ns="hsrb4s">
         <include file="$(find mujoco_sim)/launch/mujoco_sim$(arg mujoco_suffix).launch">
-            <arg name="config" value="$(find hsr_mujoco)/config/hsrb4s.yaml" />
+            <!-- <arg name="config" value="$(find hsr_mujoco)/config/hsrb4s.yaml" /> -->
+            <arg name="config" value="$(dirname)/mujoco_config/hsrb4s.yaml" />
+            
             <arg name="robot" value="$(find hsr_mujoco)/model/hsrb4s_cup.xml" />
             <arg name="world" value="$(find hsr_mujoco)/model/world_containers.xml" />
         </include>
@@ -26,22 +28,19 @@
     <node pkg="giskardpy" type="iai_hsr_mujoco.py" name="giskard" output="screen"/>
     
     <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
-      <rosparam param="enable_self_collision">False</rosparam>
-      <rosparam param="interactive_marker_chains">
+        <rosparam param="enable_self_collision">False</rosparam>
+        <rosparam param="interactive_marker_chains">
         - [odom, base_footprint]
         - [odom, head_rgbd_sensor_link]
         - [odom, hand_palm_link]
-      </rosparam>
+        </rosparam>
     </node>
 
     <!-- launch rvizweb on binder -->
     <group if="$(arg web)">
-        <node pkg="interactive_marker_proxy" type="proxy" name="interactive_marker_proxy">
-            <remap from="target_frame" to="/base_link" />
-            <remap from="topic_ns" to="/eef_control" />
-        </node>
-        <include file="$(find rvizweb)/launch/update_config.launch">
-            <arg name="config_file" value="$(dirname)/rvizweb_config/hsr_mujoco.json" />
+        <include file="$(dirname)/rvizweb_config.launch">
+            <arg name="client_config" value="$(dirname)/rvizweb_config/hsr_mujoco.json" />
+            <arg name="target_frame" default="/base_link"/>
         </include>
     </group>
 

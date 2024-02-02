@@ -57,14 +57,6 @@
     },
     {
       "isShown": true,
-      "name": "mujoco vis",
-      "options": {
-        "topic": "/mujoco/visualization_marker_array"
-      },
-      "type": "markerArray"
-    },
-    {
-      "isShown": true,
       "name": "Interactive Markers",
       "options": {
         "topic": "/eef_control"
