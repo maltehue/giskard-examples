@@ -69,7 +69,6 @@ WORKDIR  ${ROS_WS}
 RUN rm -rf src/iai_pr2/iai_pr2_donbot
 RUN catkin build
 
-RUN cd ${ROS_WS}/src/rvizweb && git pull
 RUN pip install --upgrade \
   jupyter-collaboration \
   openai \
@@ -94,3 +93,5 @@ COPY --chown=${NB_USER}:users binder/jupyter-settings.json /opt/conda/share/jupy
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
+
+RUN cd ${ROS_WS}/src/rvizweb && git pull
