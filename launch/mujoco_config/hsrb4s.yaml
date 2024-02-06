@@ -1,5 +1,7 @@
 robots: [hsrb4s]
 
+pose_init: [0, 0, 0, 0, 0, 0]
+
 joint_inits:
   arm_flex_joint: -0.5
   wrist_flex_joint: -1.07
@@ -18,10 +20,10 @@ pub_tf:
 pub_object_state_array:
   free_bodies_only: False
   robot_bodies_rate: 0
-  world_bodies_rate:  20.0
+  world_bodies_rate:  0.0
 
 pub_joint_states:
-  world_bodies_rate:  20.0
+  world_bodies_rate:  0.0
 
 pub_base_pose_rate: 20.0
 
