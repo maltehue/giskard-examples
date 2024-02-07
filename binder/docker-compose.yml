@@ -17,6 +17,7 @@ services:
     entrypoint: ["/home/jovyan/giskard_examples/binder/entrypoint.sh"]
     volumes:
       - ../:/home/jovyan/giskard_examples
+      - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     environment:
       - DISPLAY

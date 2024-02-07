@@ -74,10 +74,12 @@ RUN pip install --upgrade \
   openai \
   jupyter-ai
 
-# Chatbot configs
-COPY --chown=${NB_USER}:users binder/jupyter-ai.json /home/${NB_USER}/.local/share/jupyter/jupyter_ai/config.json
-ENV OPENAI_API_BASE="http://192.168.240.1:5002"
-ENV OPENAI_API_KEY="sk-4e6e40294b4da6fd87ddc0a4aae645a4"
+USER root
+RUN wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add -
+RUN wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list https://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
+RUN apt update -y
+RUN apt-get install -y vulkan-sdk
+USER ${NB_USER}
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
