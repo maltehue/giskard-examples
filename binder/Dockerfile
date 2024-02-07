@@ -74,13 +74,6 @@ RUN pip install --upgrade \
   openai \
   jupyter-ai
 
-USER root
-RUN wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add -
-RUN wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list https://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
-RUN apt update -y
-RUN apt-get install -y vulkan-sdk
-USER ${NB_USER}
-
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
 # The giskard standalone is not publishing tf by default change it to true by default
