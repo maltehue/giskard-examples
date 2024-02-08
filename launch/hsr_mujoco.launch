@@ -10,12 +10,9 @@
     <arg name="namespace" default="hsrb4s" />
     <group ns="hsrb4s">
         <include file="$(find mujoco_sim)/launch/mujoco_sim$(arg mujoco_suffix).launch">
-            <!-- <arg name="config" value="$(find hsr_mujoco)/config/hsrb4s.yaml" /> -->
             <arg name="config" value="$(dirname)/mujoco_config/hsrb4s.yaml" />
-            
             <arg name="robot" value="$(arg mujoco_robot)" />
             <arg name="world" value="$(arg mujoco_world)" />
-
         </include>
     </group>
 
@@ -24,7 +21,7 @@
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
         <include file="$(find hsr_control)/launch/hsr_velocity_controllers.launch" />
-        <!--<node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" />-->
+        <!-- <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" /> -->
     </group>
 
     <!-- roslaunch giskardpy giskardpy_hsr_mujoco.launch -->

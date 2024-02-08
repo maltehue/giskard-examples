@@ -2,6 +2,8 @@
     <arg name="web" default="true"/>
     <arg name="gui" default="false"/>
     <arg name="mujoco_suffix" default=""/>
+    <arg name="mujoco_robot" default="$(find iai_pr2_description)/robots/pr2_calibrated_with_ft2_without_virtual_joints.urdf"/>
+    <arg name="mujoco_world" default="$(dirname)/mujoco_config/world.xml"/>
 
     <!-- From iai_pr2_sim mujoco.launch -->
     <arg name="namespace" default="pr2" />
@@ -14,12 +16,10 @@
 
     <group ns="$(arg namespace)">
         <include file="$(find mujoco_sim)/launch/mujoco_sim$(arg mujoco_suffix).launch">
-            <arg name="robot" value="$(find iai_pr2_description)/robots/pr2_calibrated_with_ft2_without_virtual_joints.urdf" />
             <arg name="use_urdf" value="true" />
-            <arg name="config" value="$(find iai_pr2_sim)/config/mujoco_config.yaml" />
-            <arg name="world" value="$(find iai_pr2_sim)/config/mujoco_world.xml" />
-            <!-- <arg name="world" value="$(find hsr_mujoco)/model/world_containers.xml" /> -->
-
+            <arg name="config" value="$(dirname)/mujoco_config/pr2.yaml" />
+            <arg name="robot" value="$(arg mujoco_robot)" />
+            <arg name="world" value="$(arg mujoco_world)" />
             <arg name="disable_parent_child_collision_level" value="2" />
         </include>
         <rosparam command="load" file="$(find iai_pr2_sim)/config/ros_control_sim_mujoco.yaml" />

@@ -7,22 +7,22 @@
   "viewerOptions": {
     "camera": {
       "position": {
-        "x": 3,
+        "x": 5,
         "y": 0,
-        "z": 3
+        "z": 5
       }
     },
     "cameraControls": {
       "center": {
-        "x": 0,
+        "x": 1,
         "y": 0,
         "z": 0
       }
     },
     "directionalLight": {
       "position": {
-        "x": -3,
-        "y": -3,
+        "x": 3,
+        "y": 0,
         "z": 5
       }
     }
@@ -52,6 +52,14 @@
       "name": "giskard vis",
       "options": {
         "topic": "/giskard/visualization_marker_array"
+      },
+      "type": "markerArray"
+    },
+    {
+      "isShown": true,
+      "name": "mujoco vis",
+      "options": {
+        "topic": "/mujoco/visualization_marker_array"
       },
       "type": "markerArray"
     },
