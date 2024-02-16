@@ -92,3 +92,4 @@ COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
+RUN pip install --upgrade --force-reinstall flask-sqlalchemy sqlalchemy
