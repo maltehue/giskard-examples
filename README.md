@@ -1,6 +1,6 @@
 # Giskard examples
 
-[![Binder](https://binder.intel4coro.de/badge_logo.svg)](https://binder.intel4coro.de/v2/gh/yxzhan/giskard-examples.git/HEAD)
+[![Binder](https://binder.intel4coro.de/badge_logo.svg)](https://binder.intel4coro.de/v2/gh/yxzhan/giskard-examples.git/mujoco_actions_devel)
 
 [Giskard](https://github.com/SemRoCo/giskardpy) examples in Jupyter notebooks
 
@@ -26,7 +26,7 @@
 
 ### Option 2: Run on BinderHub
 
-https://binder.intel4coro.de/v2/gh/yxzhan/giskard-examples.git/main?urlpath=%2Flab%2Ftree%2Fnotebooks%2Fplayground.ipynb
+https://binder.intel4coro.de/v2/gh/yxzhan/giskard-examples.git/mujoco_actions_devel?urlpath=%2Flab%2Ftree%2Fnotebooks%2Fplayground.ipynb
 
 ## Tutorials of giskardpy
 
