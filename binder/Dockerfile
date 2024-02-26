@@ -3,22 +3,18 @@ FROM intel4coro/base-notebook:20.04-noetic-full-xpra
 RUN pip uninstall -y jlab-enhanced-cell-toolbar
 RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/dist/jupyterlab_rviz-0.3.2.tar.gz \
   https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.4.tar.gz
-RUN mamba install -y ripgrep
 RUN pip install --upgrade \
+  jupyterlab==3.6.6 \
+  jupyterlab-blockly \
   sidecar \
-  Cython \
   openai \
-  jupyterlab-git \
-  jupyterlab-unfold \
   jupyter-archive \
-  jupyterlab-search-replace \
-  jupyter-offlinenotebook \
-  jupyter-collaboration \
-  jupyter-ai \
-  jupyterlab-language-pack-de-DE  \
+  jupyterlab-git \
+  jupyter-ai~=1.10.0 \
+  jupyterlab-language-pack-de-DE \
   jupyterlab_execute_time
 
-# Initiate ROS workspace 
+# Initiate ROS workspace
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
 WORKDIR ${ROS_WS}/src
 # A Workaround for fixing the issue of RvizWeb loading meshes with "file:///" path instead of "package:///".
@@ -91,5 +87,3 @@ COPY --chown=${NB_USER}:users binder/jupyter-settings.json /opt/conda/share/jupy
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
-
-RUN pip install --upgrade --force-reinstall flask-sqlalchemy sqlalchemy

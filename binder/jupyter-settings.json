@@ -16,5 +16,8 @@
       "codeFolding": true,
       "lineWrap": false
     }
+  },
+  "@jupyterlab/translation-extension:plugin": {
+    "locale": "de_DE"
   }
 }

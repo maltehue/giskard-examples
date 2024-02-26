@@ -1,0 +1,3 @@
+[submodule "jupyterlab-blockly-ipylgbst"]
+	path = jupyterlab-blockly-ipylgbst
+	url = https://github.com/yxzhan/jupyterlab-blockly-ipylgbst.git
