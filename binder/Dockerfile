@@ -71,6 +71,9 @@ RUN rm -rf src/iai_pr2/iai_pr2_donbot
 RUN cd src/rvizweb && git pull
 RUN catkin build
 
+# Update nodejs to 18
+RUN conda install -y nodejs=18
+
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
 # The giskard standalone does not publish tf messaages by default set it to true for rvizweb
@@ -89,8 +92,6 @@ ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
 # Install blockly jupyter extension
-RUN conda install -y nodejs=18
-# RUN pip install ipywidgets~=8.1.2
 RUN cd jupyterlab-blockly-ipylgbst && \
     pip install -e "." && \
     jupyter labextension develop . --overwrite
