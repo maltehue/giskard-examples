@@ -89,6 +89,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
 # Install blockly jupyter extension
+RUN conda install -y nodejs=18
 RUN pip install ipywidgets~=8.1.2
 RUN cd jupyterlab-blockly-ipylgbst && \
     pip install -e "." && \
