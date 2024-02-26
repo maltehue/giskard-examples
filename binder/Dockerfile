@@ -87,3 +87,7 @@ COPY --chown=${NB_USER}:users binder/jupyter-settings.json /opt/conda/share/jupy
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
+
+# Install blockly jupyter extension
+RUN cd jupyterlab-blockly-ipylgbst && \
+    python3 binder/postBuild
