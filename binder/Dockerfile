@@ -90,4 +90,6 @@ CMD ["start-notebook.sh"]
 
 # Install blockly jupyter extension
 RUN cd jupyterlab-blockly-ipylgbst && \
-    python3 binder/postBuild
+  conda env update --file binder/environment.yml && \
+  conda activate jupyterlab-blockly-ipylgbst-demo && \
+  python3 binder/postBuild
