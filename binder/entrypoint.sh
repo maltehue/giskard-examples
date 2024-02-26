@@ -9,8 +9,9 @@ mkdir ${MUJOCO_WORLD_PATH}/mujoco_world
 ln -s ${MUJOCO_WORLD_PATH}/model ${MUJOCO_WORLD_PATH}/mujoco_world/model
 
 # Rebuild blockly jupyter extension
-# cd jupyterlab_blockly_ipylgbst
-# jlpm watch &
-# cd ..
+cd jupyterlab_blockly_ipylgbst
+ln -s ./src/giskard_blocks_and_toolbox.js ../notebooks/blockly.js
+jlpm watch &
+cd ..
 
 exec "$@"

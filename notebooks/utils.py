@@ -11,7 +11,6 @@ from giskardpy.goals.joint_goals import JointPositionList
 from giskardpy.monitors.joint_monitors import JointGoalReached
 from geometry_msgs.msg import Twist, PoseStamped, Point, Quaternion, Vector3Stamped, PointStamped, QuaternionStamped
 import roslib; roslib.load_manifest('urdfdom_py')
-# from urdf_parser_py.urdf import URDF
 from rqt_joint_trajectory_controller import joint_limits_urdf
 
 
@@ -112,39 +111,6 @@ def launch_robot(config):
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL)
 
-# Blockly funcitons
-def start_robot(robot):
-    global gk_wrapper
-    robot = robot.upper()
-    robot_dict = {
-        'PR2': {
-            'name': 'PR2',
-            'id': 'pr2_mujoco',
-            'launchfile': 'pr2_mujoco',
-            'cmd_vel': '/pr2/cmd_vel',
-            'robot_description': '/pr2/robot_description'
-        },
-        'HSR': {
-            'name': 'HSR',
-            'id': 'hsr_mujoco',
-            'launchfile': 'hsr_mujoco',
-            'cmd_vel': '/hsrb4s/cmd_vel',
-            'robot_description': '/hsrb4s/robot_description'
-        }
-    }
-    launch_robot(robot_dict[robot])
-    rospy.init_node('giskard_playground')
-    gk_wrapper = GiskardWrapper()
-
-def move_forward(speed, time):
-    cmd_vel_pub = rospy.Publisher(CMD_VEL_TOPIC, Twist, queue_size=100)
-    cmd_vel_msg = Twist()
-    cmd_vel_msg.linear.x = speed
-    cmd_vel_pub.publish(cmd_vel_msg)
-    rospy.sleep(time)
-    cmd_vel_msg.linear.x = 0
-    cmd_vel_pub.publish(cmd_vel_msg)
-
 # moving motion
 def move_robot(pos, root_link='map', tip_link='base_link'):
     pos_stamp = PointStamped()
@@ -188,3 +154,49 @@ def get_controlled_joints():
 # get joint state
 def get_joint_state():
     return gk_wrapper.world.get_group_info(gk_wrapper.world.get_group_names()[0]).joint_state
+
+
+# Blockly funcitons
+def blockly_start(robot):
+    global gk_wrapper
+    robot = robot.upper()
+    robot_dict = {
+        'PR2': {
+            'name': 'PR2',
+            'id': 'pr2_mujoco',
+            'launchfile': 'pr2_mujoco',
+            'cmd_vel': '/pr2/cmd_vel',
+            'robot_description': '/pr2/robot_description'
+        },
+        'HSR': {
+            'name': 'HSR',
+            'id': 'hsr_mujoco',
+            'launchfile': 'hsr_mujoco',
+            'cmd_vel': '/hsrb4s/cmd_vel',
+            'robot_description': '/hsrb4s/robot_description'
+        }
+    }
+    if robot in robot_dict: 
+        launch_robot(robot_dict[robot])
+        rospy.init_node('giskard_playground')
+        gk_wrapper = GiskardWrapper()
+    else:
+        print(f"Robot {robot} is not available!!!")
+
+def blockly_move(speed, time):
+    cmd_vel_pub = rospy.Publisher(CMD_VEL_TOPIC, Twist, queue_size=100)
+    cmd_vel_msg = Twist()
+    cmd_vel_msg.linear.x = speed
+    cmd_vel_pub.publish(cmd_vel_msg)
+    rospy.sleep(time)
+    cmd_vel_msg.linear.x = 0
+    cmd_vel_pub.publish(cmd_vel_msg)
+    
+def blockly_turn(speed, time):
+    cmd_vel_pub = rospy.Publisher(CMD_VEL_TOPIC, Twist, queue_size=100)
+    cmd_vel_msg = Twist()
+    cmd_vel_msg.angular.z = speed
+    cmd_vel_pub.publish(cmd_vel_msg)
+    rospy.sleep(time)
+    cmd_vel_msg.angular.z = 0
+    cmd_vel_pub.publish(cmd_vel_msg)
