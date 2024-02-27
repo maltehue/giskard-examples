@@ -98,3 +98,11 @@ RUN cd jupyterlab-blockly && \
 RUN cd jupyterlab-blockly-ipylgbst && \
     pip install -e ".[dev]" && \
     jupyter labextension develop . --overwrite
+
+# Kind of complex to publish a npm package for jupyterlab-blockly
+# So simply copy the javascript code to jupyterlab-blockly-ipylgbst
+RUN cd jupyterlab-blockly-ipylgbst && \
+    rm -rf node_modules/jupyterlab-blockly/lib && \
+    rm -rf node_modules/jupyterlab-blockly/style && \
+    cp -R ../jupyterlab-blockly/packages/blockly/lib node_modules/jupyterlab-blockly/ && \
+    cp -R ../jupyterlab-blockly/packages/blockly/style node_modules/jupyterlab-blockly/
