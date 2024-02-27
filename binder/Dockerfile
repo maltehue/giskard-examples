@@ -5,7 +5,6 @@ RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/
   https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.4.tar.gz
 RUN pip install --upgrade \
   jupyterlab==3.6.6 \
-  jupyterlab-blockly \
   sidecar \
   openai \
   jupyter-archive \
@@ -72,7 +71,7 @@ RUN cd src/rvizweb && git pull
 RUN catkin build
 
 # Update nodejs to 18
-RUN conda install -y nodejs=18
+RUN mamba install -y nodejs=18
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
@@ -91,7 +90,11 @@ COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
-# Install blockly jupyter extension
+# Install blockly jupyter extensions
+RUN cd jupyterlab-blockly && \
+    pip install -e "." && \
+    jupyter labextension develop . --overwrite
+    
 RUN cd jupyterlab-blockly-ipylgbst && \
     pip install -e "." && \
     jupyter labextension develop . --overwrite
