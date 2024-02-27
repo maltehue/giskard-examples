@@ -5,7 +5,7 @@ RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/
   https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.4.tar.gz
 RUN pip install --upgrade \
   jupyterlab==3.6.6 \
-  sidecar \
+  sidecar==0.5.2 \
   openai \
   jupyter-archive \
   jupyterlab-git \
@@ -92,9 +92,9 @@ CMD ["start-notebook.sh"]
 
 # Install blockly jupyter extensions
 RUN cd jupyterlab-blockly && \
-    pip install -e "." && \
+    pip install -e ".[dev]" && \
     jupyter labextension develop . --overwrite
     
 RUN cd jupyterlab-blockly-ipylgbst && \
-    pip install -e "." && \
+    pip install -e ".[dev]" && \
     jupyter labextension develop . --overwrite
