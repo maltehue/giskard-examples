@@ -112,7 +112,7 @@ def launch_robot(config):
         stderr=subprocess.DEVNULL)
 
 # moving motion
-def move_robot(pos, root_link='map', tip_link='base_link'):
+def move_to(pos, root_link='map', tip_link='base_link'):
     pos_stamp = PointStamped()
     pos_stamp.header.frame_id = root_link
     pos_stamp.point = pos

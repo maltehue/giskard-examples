@@ -8,7 +8,7 @@ RUN pip install --upgrade \
   sidecar==0.5.2 \
   openai \
   jupyter-archive \
-  jupyterlab-git \
+  jupyterlab-git~=0.30.0 \
   jupyter-ai~=1.10.0 \
   jupyterlab-language-pack-de-DE \
   jupyterlab_execute_time
