@@ -2,8 +2,7 @@ import os
 import psutil
 import subprocess
 import rospy
-from ipywidgets import Button, Layout, GridBox, VBox, Box, FloatSlider, Checkbox, interact
-from IPython.display import display, Markdown, IFrame
+from IPython.display import display, IFrame
 from sidecar import Sidecar
 
 from giskardpy.python_interface.python_interface import GiskardWrapper
@@ -13,7 +12,7 @@ from geometry_msgs.msg import Twist, PoseStamped, Point, Quaternion, Vector3Stam
 import roslib; roslib.load_manifest('urdfdom_py')
 from rqt_joint_trajectory_controller import joint_limits_urdf
 
-
+# Giskard wrapper instance
 gk_wrapper = None
 
 # Directory of the ROS launch files
@@ -32,19 +31,6 @@ LAUNCH_PROCESS = None
 SELECTED_ROBOT = 'pr2_mujoco'
 CMD_VEL_TOPIC = '/cmd_vel'
 ROBOT_DESCRIPTION = '/robot_description'
-
-# Fetch parameter from the URL
-try:
-    SELECTED_ROBOT = rospy.get_param('/nbparam_robot')
-    print(f"Selected Robot: {SELECTED_ROBOT}")
-except Exception as e:
-    print(f"Will launch the default robot: {SELECTED_ROBOT}")
-
-# Check if the docker image runs on a PC with display, if true, will launch rviz and mujoco GUI window
-try:
-    HAS_DISPLAY = 'true' if os.environ['DISPLAY'] != ':100' else 'false'
-except KeyError:
-    HAS_DISPLAY = 'false'
 
 # If it is running on binderhub
 try:
@@ -78,7 +64,7 @@ def open_xpra():
         display(IFrame(src=xpra_url, width='100%', height='100%'))
 
 # Execute the roslaunch command
-def launch_robot(config):
+def _launch_robot(config):
     global LAUNCH_PROCESS
     global CMD_VEL_TOPIC
     global ROBOT_DESCRIPTION
@@ -98,8 +84,7 @@ def launch_robot(config):
     command = [
         'roslaunch',
         launchfile,
-        f"gui:={HAS_DISPLAY}",
-        'mujoco_suffix:=' + ('' if HAS_DISPLAY == 'true' or VIS_TOOLS['xpra'] else '_headless')
+        'mujoco_suffix:=' + ('' if VIS_TOOLS['xpra'] else '_headless')
     ]
     open_rvizweb()
     open_xpra()
@@ -138,9 +123,24 @@ def rotate_robot(ori, root_link='map', tip_link='base_link'):
     gk_wrapper.execute()
 
 # joint position motion
-def control_joint(joint_goal):
+def add_joint_position(joint_goal_list):
+    joint_goal = {key: value for d in joint_goal_list for key, value in d.items()}
     gk_wrapper.motion_goals.add_joint_position(goal_state=joint_goal)
     gk_wrapper.add_default_end_motion_conditions()
+    gk_wrapper.execute()
+
+# add_cartesian_pose
+def add_cartesian_pose(pos, ori, root_link='map', tip_link='base_link'):
+    pose_stamp = PoseStamped()
+    pose_stamp.header.frame_id = root_link
+    pose_stamp.pose.position = pos
+    pose_stamp.pose.orientation = ori
+    gk_wrapper.add_default_end_motion_conditions()
+    gk_wrapper.motion_goals.add_cartesian_pose(
+        root_link=root_link,
+        tip_link=tip_link,
+        goal_pose=pose_stamp,
+    )
     gk_wrapper.execute()
 
 # get robot links
@@ -156,34 +156,37 @@ def get_joint_state():
     return gk_wrapper.world.get_group_info(gk_wrapper.world.get_group_names()[0]).joint_state
 
 
-# Blockly funcitons
-def blockly_start(robot):
+# Functions for blockly
+def launch_robot(robot, restart=False):
     global gk_wrapper
     robot = robot.upper()
     robot_dict = {
         'PR2': {
             'name': 'PR2',
-            'id': 'pr2_mujoco',
             'launchfile': 'pr2_mujoco',
             'cmd_vel': '/pr2/cmd_vel',
             'robot_description': '/pr2/robot_description'
         },
         'HSR': {
             'name': 'HSR',
-            'id': 'hsr_mujoco',
             'launchfile': 'hsr_mujoco',
             'cmd_vel': '/hsrb4s/cmd_vel',
             'robot_description': '/hsrb4s/robot_description'
         }
     }
-    if robot in robot_dict: 
-        launch_robot(robot_dict[robot])
+    if LAUNCH_PROCESS is not None and not restart:
+        print("Robot simulator is already running!")
+        return
+
+    if robot in robot_dict:
+        _launch_robot(robot_dict[robot])
         rospy.init_node('giskard_playground')
         gk_wrapper = GiskardWrapper()
     else:
         print(f"Robot {robot} is not available!!!")
 
-def blockly_move(speed, time):
+# Contorl robot base by cmd_vel message
+def cmd_vel_move(speed, time):
     cmd_vel_pub = rospy.Publisher(CMD_VEL_TOPIC, Twist, queue_size=100)
     cmd_vel_msg = Twist()
     cmd_vel_msg.linear.x = speed
@@ -191,8 +194,8 @@ def blockly_move(speed, time):
     rospy.sleep(time)
     cmd_vel_msg.linear.x = 0
     cmd_vel_pub.publish(cmd_vel_msg)
-    
-def blockly_turn(speed, time):
+
+def cmd_vel_turn(speed, time):
     cmd_vel_pub = rospy.Publisher(CMD_VEL_TOPIC, Twist, queue_size=100)
     cmd_vel_msg = Twist()
     cmd_vel_msg.angular.z = speed
