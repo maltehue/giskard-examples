@@ -5,7 +5,7 @@
     <arg name="mujoco_robot" default="$(find hsr_mujoco)/model/hsrb4s_tray.xml"/>
     <arg name="mujoco_world" default="$(find hsr_mujoco)/model/world_containers.xml"/>
 
-    <!-- roslaunch hsr_mujoco hsrb4s_sim.launch  -->
+    <!-- roslaunch hsr_mujoco hsrb4s_velocity.launch  -->
    <node pkg="tf" type="static_transform_publisher" name="fake_odometry" output="screen" args="0 0 0 0 0 0 1 map odom 10" /> 
     <arg name="namespace" default="hsrb4s" />
     <group ns="hsrb4s">
@@ -46,7 +46,7 @@
 
     <!-- launch rivz locally -->
     <group if="$(arg gui)">
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" />
+        <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find giskardpy)/launch/rviz_config/standalone.rviz" /> -->
     </group>
 
 </launch>

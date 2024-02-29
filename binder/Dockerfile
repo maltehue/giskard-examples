@@ -1,17 +1,4 @@
-FROM intel4coro/base-notebook:20.04-noetic-full-xpra
-
-RUN pip uninstall -y jlab-enhanced-cell-toolbar
-RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/dist/jupyterlab_rviz-0.3.2.tar.gz \
-  https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.4.tar.gz
-RUN pip install --upgrade \
-  jupyterlab==3.6.6 \
-  sidecar==0.5.2 \
-  openai \
-  jupyter-archive \
-  jupyterlab-git~=0.30.0 \
-  jupyter-ai~=1.10.0 \
-  jupyterlab-language-pack-de-DE \
-  jupyterlab_execute_time
+FROM intel4coro/base-notebook:20.04-noetic
 
 # Initiate ROS workspace
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
@@ -70,8 +57,6 @@ RUN rm -rf src/iai_pr2/iai_pr2_donbot
 RUN cd src/rvizweb && git pull
 RUN catkin build
 
-# Update nodejs to 18
-RUN mamba install -y nodejs=18
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
@@ -99,10 +84,10 @@ RUN cd jupyterlab-blockly-ipylgbst && \
     pip install -e ".[dev]" && \
     jupyter labextension develop . --overwrite
 
-# Kind of complex to publish a npm package for jupyterlab-blockly
-# So simply copy the javascript code to jupyterlab-blockly-ipylgbst
+# # Kind of complex to publish a npm package for jupyterlab-blockly
+# # So simply copy the javascript code to jupyterlab-blockly-ipylgbst
 RUN cd jupyterlab-blockly-ipylgbst && \
     rm -rf node_modules/jupyterlab-blockly/lib && \
     rm -rf node_modules/jupyterlab-blockly/style && \
-    cp -R ../jupyterlab-blockly/packages/blockly/lib node_modules/jupyterlab-blockly/ && \
-    cp -R ../jupyterlab-blockly/packages/blockly/style node_modules/jupyterlab-blockly/
+    cp -R $PWD/../jupyterlab-blockly/packages/blockly/lib $PWD/node_modules/jupyterlab-blockly/ && \
+    cp -R $PWD/../jupyterlab-blockly/packages/blockly/style $PWD/node_modules/jupyterlab-blockly/

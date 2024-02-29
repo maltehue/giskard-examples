@@ -12,11 +12,12 @@ services:
       # - 11311:11311
     privileged: true
     # user: root
+    user: jovyan
     working_dir: /home/jovyan/
     command: jupyter lab --allow-root --NotebookApp.token='' --no-browser --ip=0.0.0.0
     entrypoint: ["/home/jovyan/giskard_examples/binder/entrypoint.sh"]
     volumes:
-      - ../:/home/jovyan/giskard_examples
+      - ../:/home/jovyan/giskard_examples:rw
       - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     environment:
