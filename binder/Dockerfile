@@ -79,17 +79,16 @@ CMD ["start-notebook.sh"]
 RUN cd jupyterlab-blockly && \
     pip install -e ".[dev]" && \
     jupyter labextension develop . --overwrite
-    
-RUN cd jupyterlab-blockly-ipylgbst && \
-    pip install -e ".[dev]" && \
-    jupyter labextension develop . --overwrite
 
 # Kind of complex to publish a npm package for jupyterlab-blockly
 # So simply copy the javascript code to jupyterlab-blockly-ipylgbst
 RUN cd jupyterlab-blockly-ipylgbst && \
+    pip install -e ".[dev]" && \
+    jupyter labextension develop . --overwrite && \
     rm -rf node_modules/jupyterlab-blockly/lib && \
     cp -R $PWD/../jupyterlab-blockly/packages/blockly/lib $PWD/node_modules/jupyterlab-blockly/ && \
     rm -rf node_modules/jupyterlab-blockly/style && \
     cp -R $PWD/../jupyterlab-blockly/packages/blockly/style $PWD/node_modules/jupyterlab-blockly/ && \
     rm node_modules/jupyterlab-blockly/package.json && \
-    cp $PWD/../jupyterlab-blockly/packages/blockly/package.json $PWD/node_modules/jupyterlab-blockly/
+    cp $PWD/../jupyterlab-blockly/packages/blockly/package.json $PWD/node_modules/jupyterlab-blockly/ && \
+    jlpm build
