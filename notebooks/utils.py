@@ -38,6 +38,14 @@ try:
 except KeyError:
     JUPYTERHUB_USER = None
 
+# To fix the resize issue of a iframe
+def resizable_iframe(url)
+    return HTML(f"""
+        <div class="iframe-widget" style="width: calc(100% + 10px);">
+            <iframe src="{url}" width="100%", height="100%">
+        </div>
+    """)
+
 # Open rvizweb
 def open_rvizweb():
     if not VIS_TOOLS['rvizweb']:
@@ -47,7 +55,7 @@ def open_rvizweb():
     try:
         SIDECAR['rvizweb'] = Sidecar(title='RVIZWEB', anchor='right')
         with SIDECAR['rvizweb']:
-            display(IFrame(src=rospy.get_param('/rvizweb/jupyter_proxy_url'), width='100%', height='100%'))
+            display(resizable_iframe(rospy.get_param('/rvizweb/jupyter_proxy_url')))
     except Exception as e:
         print('Can not fetch rvizweb url.')
 
@@ -61,7 +69,7 @@ def open_xpra():
     url_prefix = f"/user/{JUPYTERHUB_USER}" if JUPYTERHUB_USER is not None else ''
     xpra_url = f"{url_prefix}/xprahtml5/index.html"
     with SIDECAR['xpra']:
-        display(IFrame(src=xpra_url, width='100%', height='100%'))
+        display(resizable_iframe(xpra_url))
 
 # Execute the roslaunch command
 def _launch_robot(config):
