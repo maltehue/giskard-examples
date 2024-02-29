@@ -2,7 +2,7 @@ import os
 import psutil
 import subprocess
 import rospy
-from IPython.display import display, IFrame
+from IPython.display import display, IFrame, HTML
 from sidecar import Sidecar
 
 from giskardpy.python_interface.python_interface import GiskardWrapper
@@ -39,7 +39,7 @@ except KeyError:
     JUPYTERHUB_USER = None
 
 # To fix the resize issue of a iframe
-def resizable_iframe(url)
+def resizable_iframe(url):
     return HTML(f"""
         <div class="iframe-widget" style="width: calc(100% + 10px);">
             <iframe src="{url}" width="100%", height="100%">
@@ -94,6 +94,8 @@ def _launch_robot(config):
         launchfile,
         'mujoco_suffix:=' + ('' if VIS_TOOLS['xpra'] else '_headless')
     ]
+    if 'extra_param' in config:
+        command.append(config['extra_param'])
     open_rvizweb()
     open_xpra()
     print("Executing command:\n" + \
@@ -165,7 +167,7 @@ def get_joint_state():
 
 
 # Functions for blockly
-def launch_robot(robot, restart=False):
+def launch_robot(robot, sim_env=None, restart=False):
     global gk_wrapper
     robot = robot.upper()
     robot_dict = {
@@ -182,11 +184,21 @@ def launch_robot(robot, restart=False):
             'robot_description': '/hsrb4s/robot_description'
         }
     }
+    env_dict = {
+        'world_containers': '$(find hsr_mujoco)/model/world_containers.xml',
+        'world_only_containers': '$(find hsr_mujoco)/model/world_only_containers.xml',
+        'world_particle_container': '$(find hsr_mujoco)/model/world_particle_container.xml',
+        'iai_apartment': '$(find mujoco_world)/model/iai_apartment/iai_apartment_with_window4.xml',
+        'waterfront': '$(find mujoco_world)/model/waterfront/world.xml',
+        'iai_kitchen': '$(find mujoco_world)/model/iai_kitchen/iai_kitchen_python.xml',
+    }
     if LAUNCH_PROCESS is not None and not restart:
         print("Robot simulator is already running!")
         return
 
     if robot in robot_dict:
+        if sim_env is not None and sim_env in env_dict:
+            robot_dict[robot]['extra_param'] = f'mujoco_world:={env_dict[sim_env]}'
         _launch_robot(robot_dict[robot])
         rospy.init_node('giskard_playground')
         gk_wrapper = GiskardWrapper()
