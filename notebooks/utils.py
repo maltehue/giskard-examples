@@ -167,7 +167,7 @@ def get_joint_state():
 
 
 # Functions for blockly
-def launch_robot(robot, sim_env=None, restart=False):
+def launch_robot(robot, sim_env=None, restart=True):
     global gk_wrapper
     robot = robot.upper()
     robot_dict = {

@@ -4,7 +4,7 @@
 		<flag sensornoise="disable" contact="enable"/>
 	</option>
   <default>
-    <geom condim="4" solimp="0.99 0.99 0" solref="0.01 1" friction="1 0.005 0.0001" />
+    <geom condim="4" solimp="0.99 0.99 0" solref="0.01 1" friction="2 0.005 0.0001" />
   </default>
 
 	<asset>
@@ -51,7 +51,23 @@
 	<worldbody>
 		<body name="sync_ball0" pos="2 -0.2 0.8">
 			<freejoint/><inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
-			<geom type="sphere" size="0.03" rgba="1 1 0 1"/>
+			<geom type="sphere" size="0.01" rgba="0 1 1 1"/>
+		</body>
+		<body name="sync_ball1" pos="2 -0.2 1.8">
+			<freejoint/><inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
+			<geom type="sphere" size="0.01" rgba="0 0 0 1"/>
+		</body>
+		<body name="sync_ball2" pos="2 -0.2 2.8">
+			<freejoint/><inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
+			<geom type="sphere" size="0.01" rgba="1 0 1 1"/>
+		</body>
+		<body name="sync_ball3" pos="2 -0.2 3.8">
+			<freejoint/><inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
+			<geom type="sphere" size="0.01" rgba="1 1 1 1"/>
+		</body>
+		<body name="sync_ball4" pos="2 -0.2 4.8">
+			<freejoint/><inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
+			<geom type="sphere" size="0.01" rgba="1 1 0 1"/>
 		</body>
 	</worldbody>
 
