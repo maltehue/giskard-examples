@@ -107,7 +107,7 @@ def _launch_robot(config):
         stderr=subprocess.DEVNULL)
 
 # moving motion
-def move_to(pos, root_link='map', tip_link='base_link'):
+def move_robot(pos, root_link='map', tip_link='base_link'):
     pos_stamp = PointStamped()
     pos_stamp.header.frame_id = root_link
     pos_stamp.point = pos
@@ -141,6 +141,15 @@ def add_joint_position(joint_goal_list):
 
 # add_cartesian_pose
 def add_cartesian_pose(pos, ori, root_link='map', tip_link='base_link'):
+    if pos is None and ori is None:
+        print("Both position and orientation are None!!!")
+        return
+    if pos is None:
+        rotate_robot(ori, root_link='map', tip_link='base_link')
+        return
+    if ori is None:
+        move_robot(pos, root_link='map', tip_link='base_link')
+        return
     pose_stamp = PoseStamped()
     pose_stamp.header.frame_id = root_link
     pose_stamp.pose.position = pos

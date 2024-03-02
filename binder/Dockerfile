@@ -53,10 +53,7 @@ ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:
 WORKDIR  ${ROS_WS}
 # Can not build package iai_pr2_donbot and it is not used
 RUN rm -rf src/iai_pr2/iai_pr2_donbot
-# Upldate rvizweb
-RUN cd src/rvizweb && git pull
 RUN catkin build
-
 
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
