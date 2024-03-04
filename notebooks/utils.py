@@ -23,8 +23,8 @@ SIDECAR = {
     'xpra': None
 }
 VIS_TOOLS = {
-    'rvizweb': True,
-    'xpra': False
+    'rvizweb': False,
+    'xpra': True
 }
 # To manage the roslaunch process in the background
 LAUNCH_PROCESS = None
@@ -145,10 +145,10 @@ def add_cartesian_pose(pos, ori, root_link='map', tip_link='base_link'):
         print("Both position and orientation are None!!!")
         return
     if pos is None:
-        rotate_robot(ori, root_link='map', tip_link='base_link')
+        rotate_robot(ori, root_link=root_link, tip_link=tip_link)
         return
     if ori is None:
-        move_robot(pos, root_link='map', tip_link='base_link')
+        move_robot(pos, root_link=root_link, tip_link=tip_link)
         return
     pose_stamp = PoseStamped()
     pose_stamp.header.frame_id = root_link
@@ -197,9 +197,9 @@ def launch_robot(robot, sim_env=None, restart=True):
         'world_containers': '$(find hsr_mujoco)/model/world_containers.xml',
         'world_only_containers': '$(find hsr_mujoco)/model/world_only_containers.xml',
         'world_particle_container': '$(find hsr_mujoco)/model/world_particle_container.xml',
-        'iai_apartment': '$(find mujoco_world)/model/iai_apartment/iai_apartment_with_window4.xml',
-        'waterfront': '$(find mujoco_world)/model/waterfront/world.xml',
-        'iai_kitchen': '$(find mujoco_world)/model/iai_kitchen/iai_kitchen_python.xml',
+        'Apartment': '$(find mujoco_world)/model/iai_apartment/iai_apartment_with_window4.xml',
+        'Waterfront DM': '$(find mujoco_world)/model/waterfront/world.xml',
+        'Kitchen': '$(find mujoco_world)/model/iai_kitchen/iai_kitchen_python.xml',
     }
     if LAUNCH_PROCESS is not None and not restart:
         print("Robot simulator is already running!")
