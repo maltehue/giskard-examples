@@ -8,9 +8,23 @@
 
 ### Option 1: Test Image Locally (Under repo directory)
 
-- Run Docker image with X-forwarding
+- To make the current directory writable inside the docker image:
 
   ```bash
+  chmod -R g+w ./
+  ```
+
+- Build and run docker image:
+
+  ```bash
+  export GID=$(id -g) && \
+  docker compose -f ./binder/docker-compose.yml up --build
+  ```
+
+  or run Docker image with X-forwarding
+
+  ```bash
+  export GID=$(id -g) && \
   xhost +local:docker && \
   docker compose -f ./binder/docker-compose.yml up  --build && \
   xhost -local:docker
