@@ -1,5 +1,44 @@
 FROM intel4coro/base-notebook:20.04-noetic
 
+# Install VNC server and XFCE desktop environment
+USER root
+RUN apt-get -y -qq update \
+ && apt-get -y -qq install \
+        dbus-x11 \
+        xfce4 \
+        xfce4-panel \
+        xfce4-session \
+        xfce4-settings \
+        xorg \
+        xubuntu-icon-theme \
+        fonts-dejavu \
+    # Disable the automatic screenlock since the account password is unknown
+ && apt-get -y -qq remove xfce4-screensaver \
+    # chown $HOME to workaround that the xorg installation creates a
+    # /home/jovyan/.cache directory owned by root
+    # Create /opt/install to ensure it's writable by pip
+ && mkdir -p /opt/install \
+ && chown -R $NB_UID:$NB_GID $HOME /opt/install \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install a VNC server, either TigerVNC (default) or TurboVNC
+ENV PATH=/opt/TurboVNC/bin:$PATH
+RUN echo "Installing TurboVNC"; \
+    # Install instructions from https://turbovnc.org/Downloads/YUM
+    wget -q -O- https://packagecloud.io/dcommander/turbovnc/gpgkey | \
+    gpg --dearmor >/etc/apt/trusted.gpg.d/TurboVNC.gpg; \
+    wget -O /etc/apt/sources.list.d/TurboVNC.list https://raw.githubusercontent.com/TurboVNC/repo/main/TurboVNC.list; \
+    apt-get -y -qq update; \
+    apt-get -y -qq install \
+        turbovnc \
+    ; \
+    rm -rf /var/lib/apt/lists/*;
+
+USER $NB_USER
+RUN conda install -y websockify
+RUN pip install jupyter-remote-desktop-proxy
+ENV DISPLAY=:1
+
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
 WORKDIR ${ROS_WS}/src
