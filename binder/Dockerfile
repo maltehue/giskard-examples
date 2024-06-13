@@ -75,3 +75,5 @@ RUN cd scripts/iai_robots && \
   chmod +x stretch_standalone.py
 WORKDIR /home/${NB_USER}/giskard_examples
 # === End ===
+
+RUN pip install --force-reinstall git+https://github.com/yxzhan/jupyter-remote-desktop-proxy.git@main
