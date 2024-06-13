@@ -1,24 +1,13 @@
-FROM intel4coro/base-notebook:20.04-noetic-full-xpra
+FROM intel4coro/base-notebook:20.04-noetic-vnc
 
-RUN pip uninstall -y jlab-enhanced-cell-toolbar
-RUN pip install https://raw.githubusercontent.com/yxzhan/jupyterlab-rviz/master/dist/jupyterlab_rviz-0.3.2.tar.gz \
-  https://raw.githubusercontent.com/yxzhan/extension-examples/main/cell-toolbar/dist/jupyterlab_examples_cell_toolbar-0.1.4.tar.gz
-RUN mamba install -y ripgrep
+# update jupyter extensions
+USER ${NB_USER}
 RUN pip install --upgrade \
+  jupyterlab \
   sidecar \
-  mujoco \
   jupyterlab-git \
   jupyterlab-unfold \
-  jupyter-archive \
-  jupyterlab-search-replace \
-  jupyter-offlinenotebook \
-  jupyter-collaboration \
-  jupyterlab-language-pack-de-DE  \
-  jupyterlab_execute_time
-
-USER root
-RUN apt update && apt install -y ffmpeg
-USER ${NB_USER}
+  jupyter-collaboration
 
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
@@ -40,7 +29,7 @@ RUN pip install -r src/giskardpy/requirements.txt
 # Install missing python packages (should be included in giskardpy/requirements.txt)
 RUN pip install termcolor pydot
 
-# Building Custom bullet3 from source with Python 3.10 (in a clumsy way)
+# Building Custom bullet3 from source with Python 3.10
 WORKDIR /home/${NB_USER}
 RUN git clone https://github.com/pybind/pybind11.git \
   && cd pybind11 \
@@ -60,9 +49,6 @@ ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:
 WORKDIR  ${ROS_WS}
 RUN catkin build
 
-# Update RvizWeb
-RUN cd ${ROS_WS}/src/rvizweb && git pull
-
 # Copy the giskard tmp meshes to skip the converting step
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
 # Copy contents of the repo into the image
@@ -71,14 +57,12 @@ WORKDIR /home/${NB_USER}/giskard_examples
 RUN git config --global --add safe.directory ${PWD}
 RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
-COPY --chown=${NB_USER}:users binder/jupyter-settings.json /opt/conda/share/jupyter/lab/settings/overrides.json
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
 # === Add Stretch robot from giskard:devel ===
-# === (To be deleted after stretch add to giskard:master) ===
-
+# === (To be deleted after stretch add to giskardpy:master) ===
 WORKDIR  ${ROS_WS}/src/giskardpy
 ARG GISKARD_COMMIT_PREFIX=https://raw.githubusercontent.com/SemRoCo/giskardpy/ee1daaf2cfdf70c9981d63f6a7dfd5b4626b77ff
 RUN cd src/giskardpy/configs/iai_robots && \
