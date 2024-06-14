@@ -14,7 +14,7 @@ ENV ROS_WS=/home/${NB_USER}/workspace/ros
 WORKDIR ${ROS_WS}/src
 COPY --chown=${NB_USER}:users binder/me ${ROS_WS}/src/me
 RUN pip install vcstool
-COPY --chown=${NB_USER}:users binder/nosetic.rosinstall /home/${NB_USER}/noetic.rosinstall
+COPY --chown=${NB_USER}:users binder/noetic.rosinstall /home/${NB_USER}/noetic.rosinstall
 RUN vcs import --input /home/${NB_USER}/noetic.rosinstall --recursive
 
 # Install dependencies
