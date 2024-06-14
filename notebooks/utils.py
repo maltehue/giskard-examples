@@ -5,6 +5,11 @@ import rospy
 from IPython.display import display, HTML
 from sidecar import Sidecar
 
+from visualization_msgs.msg import Marker, MarkerArray
+from std_msgs.msg import ColorRGBA
+from geometry_msgs.msg import Point, Quaternion
+import threading
+
 # Directory of the ROS launch files
 LAUNCH_FILE_DIR = os.path.abspath(os.path.join(os.getcwd(), "../launch"))
 
@@ -62,3 +67,78 @@ def run_command(cmd, background=True):
     LAUNCH_PROCESS = psutil.Popen(command,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL)
+
+# Create custom marker for visualization
+def create_marker(marker_id,
+                  position=Point(0, 0, 0),
+                  scale=Point(1, 1, 1),
+                  orientation=Quaternion(0, 0, 0, 1),
+                  color=ColorRGBA(1, 1, 0, 1), 
+                  frame_id="tracy/world"
+                 ):
+    marker = Marker()
+    marker.header.frame_id = frame_id
+    marker.header.stamp = rospy.Time.now()
+    marker.ns = "tracy_playground"
+    marker.id = marker_id
+    marker.type = Marker.CUBE
+    marker.scale = scale
+    marker.action = Marker.ADD
+    marker.pose.orientation = orientation
+    marker.pose.position = position
+    marker.color = color
+    marker.lifetime = rospy.Duration()
+    return marker
+
+# Publish marker array
+def publish_marker_array(marker_array, topic='visualization_marker_array'):
+    marker_pub = rospy.Publisher(topic, MarkerArray, queue_size=100)
+    rate = rospy.Rate(1)  # 1 Hz
+    while not rospy.is_shutdown():
+        marker_pub.publish(marker_array)
+        rate.sleep()
+    
+
+# A tracy demo class
+class TracyDemo:
+    def __init__(self, colors):
+        self.topic = 'demo/visualization_marker_array'
+        self.colors = colors
+        self.color_block_size = 0.3
+        self.color_position_r = [
+            Point(0.7 + i % 2 * self.color_block_size, -0.3 - int(i / 2) * self.color_block_size, 0.01) for i in range(len(self.colors))
+        ]
+        self.color_position_l = [
+            Point(0.7 + i % 2 * self.color_block_size, 0.3 + int(i / 2) * self.color_block_size, 0.01) for i in range(len(self.colors))
+        ]
+        
+    # 
+    def setup_color_blocks(self):
+        """Display color blocks on the tracy table"""
+        marker_array = MarkerArray()
+        marker_array.markers = []
+        for i in range(len(self.colors)):
+            marker_array.markers.append(create_marker(
+                marker_id=i,
+                position=self.color_position_r[i],
+                scale=Point(self.color_block_size, self.color_block_size, 0.01),
+                color=self.colors[i]
+            ))
+            marker_array.markers.append(create_marker(
+                marker_id=i + len(self.colors),
+                position=self.color_position_l[i],
+                scale=Point(self.color_block_size, self.color_block_size, 0.01),
+                color=self.colors[i]
+            ))
+        # publish ros message in the background
+        bg_thread = threading.Thread(target=publish_marker_array, args=(marker_array, self.topic))
+        bg_thread.daemon = True  # This makes sure the thread will exit when the main program exits
+        bg_thread.start()
+
+    def get_color_pos(self, color, hand='r'):
+        """Get the the position of a color block (placeholder of perception)"""
+        index = self.colors.index(color)
+        if hand == 'r':
+            return self.color_position_r[index]
+        else:
+            return self.color_position_l[index]
