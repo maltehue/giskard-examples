@@ -87,3 +87,4 @@ WORKDIR /home/${NB_USER}/giskard_examples
 # === End ===
 
 COPY --chown=${NB_USER}:users launch/rviz_config/standalone_tracy.rviz ${ROS_WS}/src/giskardpy/launch/rviz_config/standalone_tracy.rviz
+RUN pip install --upgrade jupyterlab_execute_time
