@@ -45,6 +45,16 @@ COPY --chown=${NB_USER}:users binder/build_cmake_pybullet_3.10_double.sh /home/$
 RUN cd bullet3 && ./build_cmake_pybullet_3.10_double.sh
 ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:/home/${NB_USER}/bullet3/examples/pybullet
 
+# Build qpSWIFT
+RUN git clone https://github.com/qpSWIFT/qpSWIFT.git
+USER root
+RUN cd qpSWIFT && \
+    cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build build --config Release && \
+    cmake --build build --target install
+USER ${NB_USER}
+RUN cd qpSWIFT/python && python setup.py install
+
 # Build ROS workspace
 WORKDIR  ${ROS_WS}
 RUN catkin build

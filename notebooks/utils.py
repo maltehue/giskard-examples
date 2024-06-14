@@ -9,6 +9,7 @@ from visualization_msgs.msg import Marker, MarkerArray
 from std_msgs.msg import ColorRGBA
 from geometry_msgs.msg import Point, Quaternion
 import threading
+import random
 
 # Directory of the ROS launch files
 LAUNCH_FILE_DIR = os.path.abspath(os.path.join(os.getcwd(), "../launch"))
@@ -139,6 +140,12 @@ class TracyDemo:
         """Get the the position of a color block (placeholder of perception)"""
         index = self.colors.index(color)
         if hand == 'r':
-            return self.color_position_r[index]
+            pos = self.color_position_r[index]
         else:
-            return self.color_position_l[index]
+            pos = self.color_position_l[index]
+        # Copy the postion, not modify it.
+        pos = Point(pos.x, pos.y, pos.z)
+        # add some bias to the target position
+        pos.x = pos.x + random.uniform(-self.color_block_size, self.color_block_size) * 0.3
+        pos.y = pos.y + random.uniform(-self.color_block_size, self.color_block_size) * 0.3
+        return pos
