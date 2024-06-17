@@ -48,6 +48,7 @@ def open_rvizweb():
             display(resizable_iframe(rospy.get_param('/rvizweb/jupyter_proxy_url')))
     except Exception as e:
         print('Can not fetch rvizweb url.')
+    run_command('roslaunch rvizweb update_config.launch config_file:=$PWD/../launch/rvizweb_config/tracy.json')
 
 # Open Desktop
 def open_desktop():

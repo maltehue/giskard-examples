@@ -62,6 +62,14 @@
         "topic": "/eef_control"
       },
       "type": "interactiveMarkers"
+    },
+    {
+      "isShown": true,
+      "name": "Marker array",
+      "options": {
+        "topic": "/demo/visualization_marker_array"
+      },
+      "type": "markerArray"
     }
   ]
 }
