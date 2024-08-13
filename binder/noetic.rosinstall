@@ -1,57 +1,13 @@
 repositories:
-  iai_robots:
+  iai_pr2:
     type: git
-    url: http://github.com/code-iai/iai_robots.git
-    version: master
-  pr2_common:
-    type: git
-    url: https://github.com/PR2/pr2_common.git
-    version: b34703bcca2b07cadbc3777d3c504c232a0c0c28
-  pr2_kinematics:
-    type: git
-    url: https://github.com/PR2/pr2_kinematics.git
-    version: kinetic-devel
-  iai_tiago:
-    type: git
-    url: https://github.com/code-iai/iai_tiago.git
-    version: main
-  iai_hsr:
-    type: git
-    url: https://github.com/code-iai/iai_hsr.git
-    version: main
-  iai_tracy:
-    type: git
-    url: https://github.com/code-iai/iai_tracy.git
-    version: main
-  robotiq_2finger_grippers:
-    type: git
-    url: https://github.com/Danfoa/robotiq_2finger_grippers.git
-    version: master
-  iai_boxy:
-    type: git
-    url: https://github.com/code-iai/iai_boxy.git
-    version: master
-  stretch_ros:
-    type: git
-    url: https://github.com/hello-robot/stretch_ros.git
-    version: noetic
-  armar6_description:
-    type: git
-    url: https://github.com/cram2/armar6_description.git
-    version: main
-  kdl_ik_services:
-    type: git
-    url: https://github.com/cram2/kdl_ik_service.git
-    verison: master
-  orocos_kinematics_dynamics:
-    type: git
-    url: https://github.com/orocos/orocos_kinematics_dynamics.git
-    version: v1.5.1
+    url: https://github.com/code-iai/iai_pr2.git
+    version: mujoco_sim_setup
   giskardpy:
     type: git
     url: https://github.com/SemRoCo/giskardpy.git
-    version: devel
+    version: feature_functions
   giskard_msgs:
     type: git
     url: https://github.com/SemRoCo/giskard_msgs.git
-    version: devel
+    version: monitor_result_feedback
