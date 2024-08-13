@@ -58,6 +58,7 @@ RUN cd qpSWIFT/python && python setup.py install
 
 # Build ROS workspace
 WORKDIR  ${ROS_WS}
+RUN touch ${ROS_WS}/src/iai_pr2/iai_pr2_donbot/CATKIN_IGNORE
 RUN catkin build
 
 # Copy the giskard tmp meshes to skip the converting step
