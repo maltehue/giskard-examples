@@ -73,5 +73,3 @@ COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
-
-COPY --chown=${NB_USER}:users launch/rviz_config/standalone_tracy.rviz ${ROS_WS}/src/giskardpy/launch/rviz_config/standalone_tracy.rviz
