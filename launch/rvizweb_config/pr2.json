@@ -34,7 +34,7 @@
       "options": {
         "cellSize": "1",
         "color": "#888888",
-        "numCells": "10"
+        "numCells": "9"
       },
       "type": "grid"
     },
