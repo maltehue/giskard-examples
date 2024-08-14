@@ -1,4 +1,8 @@
 repositories:
+  iai_maps:
+    type: git
+    url: https://github.com/code-iai/iai_maps.git
+    version: master
   orocos_kinematics_dynamics:
     type: git
     url: https://github.com/orocos/orocos_kinematics_dynamics.git
