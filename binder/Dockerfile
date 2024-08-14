@@ -72,7 +72,7 @@ RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 
-RUN chmod -x ${ROS_WS}/src/giskardpy/scripts/iai_robots/pr2/pr2_standalone_vrb.py
+RUN chmod +x ${ROS_WS}/src/giskardpy/scripts/iai_robots/pr2/pr2_standalone_vrb.py
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
