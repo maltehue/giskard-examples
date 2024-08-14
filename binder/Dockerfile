@@ -28,7 +28,7 @@ USER ${NB_USER}
 RUN pip install -r src/giskardpy/requirements.txt
 
 # Install missing python packages (should be included in giskardpy/requirements.txt)
-RUN pip install termcolor pydot
+RUN pip install termcolor pydot pdf2image
 
 # Building Custom bullet3 from source with Python 3.10
 WORKDIR /home/${NB_USER}
