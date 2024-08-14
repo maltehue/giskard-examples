@@ -14,7 +14,7 @@ repositories:
   giskardpy:
     type: git
     url: https://github.com/SemRoCo/giskardpy.git
-    version: cc56981706ff46b585c3bc56b4a4f190d65055c6
+    version: d231815e843f97c7398d85143ba7eaca4583a1ec
   giskard_msgs:
     type: git
     url: https://github.com/SemRoCo/giskard_msgs.git
