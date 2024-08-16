@@ -11,7 +11,7 @@
     "url": "desktop",
     "mode": "split-right",
     "start": true,
-    "command": ["sh", "-c", "binder/xstartup"]
+    "command": ["sh", "-c", "giskard_examples/binder/.vnc/xstartup"]
   },
   {
     "name": "rvizweb",
