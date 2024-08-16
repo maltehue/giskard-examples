@@ -6,11 +6,16 @@
     "url": "xprahtml5/index.html"
   },
   {
-    "name": "rvizweb",
-    "title": "Rvizweb",
-    "url": "proxy/8001/rvizweb/webapps/rvizweb/build/www/index.html",
+    "name": "desktop",
+    "title": "VNC Desktop (Embedded)",
+    "url": "desktop",
     "mode": "split-right",
     "start": true
+  },
+  {
+    "name": "rvizweb",
+    "title": "Rvizweb",
+    "url": "proxy/8001/rvizweb/webapps/rvizweb/build/www/index.html"
   },
   {
     "name": "rosgraph",
@@ -18,10 +23,5 @@
     "url": "proxy/8001/rvizweb/webapps/ros-node-graph/build/index.html",
     "mode": "split-left",
     "start": true
-  },
-  {
-    "name": "desktop",
-    "title": "VNC Desktop (Embedded)",
-    "url": "desktop"
   }
 ]
