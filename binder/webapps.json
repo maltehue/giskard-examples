@@ -10,8 +10,7 @@
     "title": "VNC Desktop (Embedded)",
     "url": "desktop",
     "mode": "split-right",
-    "start": true,
-    "command": ["sh", "-c", "binder/.vnc/xstartup"]
+    "start": true
   },
   {
     "name": "rvizweb",

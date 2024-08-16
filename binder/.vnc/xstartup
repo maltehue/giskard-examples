@@ -1,4 +1,0 @@
-#!/bin/sh
-
-source giskard_examples/ROS_WS/devel/setup.bash
-rviz &
