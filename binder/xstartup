@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # Start the desktop environment
-# startxfce4 &
+startxfce4 &
 
 # Start gedit automatically within the VNC session
 source giskard_examples/ROS_WS/devel/setup.bash
 rviz &
 
 # Start the VNC server
-# vncserver -geometry 1280x800 -depth 24 :1
+vncserver -geometry 1280x800 -depth 24 :1
