@@ -56,6 +56,10 @@
     local_name: silkie_ros
     uri: https://github.com/kaviyachandran/silkie_ros.git
     version: pouring
+- git:
+    local_name: silkie
+    uri: https://github.com/kaviyachandran/silkie.git
+    version: devel
 # Can not merge the the following repo because of the SSH urls in the .gitmodules file
 # - git:
 #     local-name: mujoco_world
