@@ -53,11 +53,11 @@
     uri: https://github.com/maltehue/mujoco_robots.git
     version: main
 - git:
-    local_name: silkie_ros
+    local-name: silkie_ros
     uri: https://github.com/kaviyachandran/silkie_ros.git
     version: pouring
 - git:
-    local_name: silkie
+    local-name: silkie
     uri: https://github.com/kaviyachandran/silkie.git
     version: devel
 # Can not merge the the following repo because of the SSH urls in the .gitmodules file
