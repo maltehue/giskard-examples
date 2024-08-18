@@ -25,5 +25,10 @@
     "title": "Webviz",
     "icon": "proxy/8001/rvizweb/webapps/webviz/icon.svg",
     "url": "proxy/8001/rvizweb/webapps/webviz/index.html"
-  }
+  },
+  {
+    "name": "desktop",
+    "title": "VNC Desktop (Embedded)",
+    "url": "desktop"
+  },
 ]
