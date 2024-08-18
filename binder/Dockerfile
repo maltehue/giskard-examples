@@ -47,17 +47,6 @@ COPY --chown=${NB_USER}:users binder/me ${ROS_WS}/src/me
 COPY --chown=${NB_USER}:users binder/noetic.rosinstall /home/${NB_USER}/noetic.rosinstall
 RUN wstool merge /home/${NB_USER}/noetic.rosinstall \
   && wstool update
-# Clone repos with ssh url in .gitmodules
-RUN git clone https://github.com/maltehue/mujoco_robots.git \
-  && cd mujoco_robots \
-  && perl -i -p -e 's|git@(.*?):|https://\1/|g' .gitmodules \
-  && git submodule sync \
-  && git submodule update --init --recursive
-RUN git clone https://github.com/HoangGiang93/mujoco_world.git \
-  && cd mujoco_world \
-  && perl -i -p -e 's|git@(.*?):|https://\1/|g' .gitmodules \
-  && git submodule sync \
-  && git submodule update --init --recursive
 
 # Install dependencies
 WORKDIR  ${ROS_WS}
