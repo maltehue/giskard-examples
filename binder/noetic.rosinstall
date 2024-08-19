@@ -44,7 +44,8 @@
     version: master
 - git:
     local-name: mujoco_msgs
-    uri: https://github.com/HoangGiang93/mujoco_msgs.git
+    uri: https://github.com/kaviyachandran/mujoco_msgs.git
+    version: contacts
 - git:
     local-name: mujoco_sim
     uri: https://github.com/HoangGiang93/mujoco_sim.git
