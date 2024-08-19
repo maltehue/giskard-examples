@@ -1,7 +1,7 @@
 - git:
     local-name: giskardpy
     uri: https://github.com/SemRoCo/giskardpy.git
-    version: e26ba2f54b033ef6f6c8c663eae4eb04fb9d1716
+    version: 39e7c4a52f0ad74c25661f5b0a793932c939b0b9
 - git: 
     local-name: giskard_msgs
     uri: https://github.com/SemRoCo/giskard_msgs.git
