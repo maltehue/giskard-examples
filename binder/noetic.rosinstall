@@ -55,7 +55,7 @@
 - git:
     local-name: silkie_ros
     uri: https://github.com/kaviyachandran/silkie_ros.git
-    version: pouring
+    version: new_rules
 - git:
     local-name: silkie
     uri: https://github.com/kaviyachandran/silkie.git
