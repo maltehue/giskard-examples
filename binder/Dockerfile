@@ -59,7 +59,7 @@ USER ${NB_USER}
 RUN pip install -r src/giskardpy/requirements.txt
 
 # Install missing python packages (should be included in src/giskardpy/requirements.txt)
-RUN pip install termcolor pydot triangle cython~=0.19
+RUN pip install termcolor pydot triangle cython~=0.19 igraph
 
 # Building Custom bullet3 from source with Python 3.10 (in a clumsy way)
 WORKDIR /home/${NB_USER}
@@ -102,3 +102,5 @@ ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
 RUN pip install --upgrade jupyter-remote-desktop-proxy
+
+COPY ${ROS_WS}/src/silkie/src/silkie/silkie.py ${ROS_WS}/src/silkie_ros/src/silkie_ros/silkie.py
