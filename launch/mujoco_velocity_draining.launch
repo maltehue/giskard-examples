@@ -11,7 +11,7 @@
       <arg name="robot" value="$(find iai_pr2_description)/robots/pr2_calibrated_with_ft2_without_virtual_joints.urdf" />
       <arg name="use_urdf" value="true" />
       <arg name="config" default="$(find me)/config/mujoco_config_pr2.yaml" />
-      <arg name="world" value="$(find me)/config/mujoco_world.xml" />
+      <arg name="world" value="$(find me)/config/mujoco_world_pr2.xml" />
       <arg name="disable_parent_child_collision_level" value="5" />
     </include>
     <rosparam command="load" file="$(find me)/config/ros_control_sim_mujoco.yaml" />

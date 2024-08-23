@@ -137,7 +137,7 @@
 			<freejoint/> <inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
 			<geom name="ball20" type="sphere" size="0.005" rgba="1 0 0 1"/>
 		</body>
-		<body name="sync_ball21" pos="2 -0.2 1.01">
+		<!-- <body name="sync_ball21" pos="2 -0.2 1.01">
 			<freejoint/> <inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
 			<geom name="ball21" type="sphere" size="0.005" rgba="1 0 0 1"/>
 		</body>
@@ -452,7 +452,7 @@
 		<body name="sync_ball99" pos="2 -0.2 1.79">
 			<freejoint/> <inertial pos="0.0 0.0 0.0" mass="0.0001" diaginertia="0.000000001 0.000000001 0.000000001" />
 			<geom name="ball99" type="sphere" size="0.005" rgba="1 0 0 1"/>
-		</body>
+		</body> -->
     <body name="big_ball" pos="2 -0.25 0.8">
 			<freejoint/> <inertial pos="0.0 0.0 0.0" mass="0.01" diaginertia="0.0001 0.0001 0.0001"/>
 			<geom name="big_ball" type="sphere" size="0.015 0.015 0.015" rgba="0 1 0 1"/>
@@ -525,7 +525,7 @@
 <contact> 
  <pair geom1="ball19" geom2="pot_bottom" friction="0.5 0.0005 0.00001"/> 
 </contact> 
-<contact> 
+<!-- <contact> 
  <pair geom1="ball20" geom2="pot_bottom" friction="0.5 0.0005 0.00001"/> 
 </contact> 
 <contact> 
@@ -764,7 +764,7 @@
 </contact> 
 <contact> 
  <pair geom1="ball99" geom2="pot_bottom" friction="0.5 0.0005 0.00001"/> 
-</contact> 
+</contact>  -->
 
 <contact> 
  <pair geom1="ball0" geom2="pot_side1" friction="0.5 0.0005 0.00001"/> 
@@ -829,7 +829,7 @@
 <contact> 
  <pair geom1="ball20" geom2="pot_side1" friction="0.5 0.0005 0.00001"/> 
 </contact> 
-<contact> 
+<!-- <contact> 
  <pair geom1="ball21" geom2="pot_side1" friction="0.5 0.0005 0.00001"/> 
 </contact> 
 <contact> 
@@ -1065,7 +1065,7 @@
 </contact> 
 <contact> 
  <pair geom1="ball99" geom2="pot_side1" friction="0.5 0.0005 0.00001"/> 
-</contact> 
+</contact>  -->
 
 
 <contact> 
