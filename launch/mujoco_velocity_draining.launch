@@ -7,14 +7,14 @@
   <node pkg="tf" type="static_transform_publisher" name="fake_odometry" output="screen" args="0 0 0 0 0 0 1 map odom_combined 10" /> 
 
   <group ns="$(arg namespace)">
-    <include file="$(find mujoco_sim)/launch/mujoco_sim.launch">
+    <include file="$(find mujoco_sim)/launch/mujoco_sim_headless.launch">
       <arg name="robot" value="$(find iai_pr2_description)/robots/pr2_calibrated_with_ft2_without_virtual_joints.urdf" />
       <arg name="use_urdf" value="true" />
-      <arg name="config" default="~/giskard_examples/launch/mujoco_config/mujoco_config_pr2.yaml" />
-      <arg name="world" value="~/giskard_examples/launch/mujoco_config/mujoco_world.xml" />
+      <arg name="config" default="$(find me)/config/mujoco_config_pr2.yaml" />
+      <arg name="world" value="$(find me)/config/mujoco_world.xml" />
       <arg name="disable_parent_child_collision_level" value="5" />
     </include>
-    <rosparam command="load" file="~/giskard_examples/launch/mujoco_config/ros_control_sim_mujoco.yaml" />
+    <rosparam command="load" file="$(find me)/config/ros_control_sim_mujoco.yaml" />
 <!--     <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="spawn
       joint_state_controller 
       real_time_velocity_controller
