@@ -5,6 +5,13 @@
     "url": "proxy/8001/rvizweb/webapps/rvizweb/build/www/index.html"
   },
   {
+    "name": "desktop",
+    "title": "VNC Desktop (Embedded)",
+    "url": "desktop",
+    "mode": "split-right",
+    "start": true
+  },
+  {
     "name": "XPRA",
     "title": "Xpra Desktop",
     "icon": "proxy/8001/rvizweb/webapps/xpra-logo.svg",
@@ -27,12 +34,5 @@
     "title": "Webviz",
     "icon": "proxy/8001/rvizweb/webapps/webviz/icon.svg",
     "url": "proxy/8001/rvizweb/webapps/webviz/index.html"
-  },
-  {
-    "name": "desktop",
-    "title": "VNC Desktop (Embedded)",
-    "url": "desktop",
-    "mode": "split-right",
-    "start": true
   }
 ]
