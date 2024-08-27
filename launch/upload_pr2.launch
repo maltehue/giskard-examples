@@ -1,0 +1,6 @@
+<launch>
+
+
+  <include file="$(find iai_pr2_description)/launch/upload_pr2_calibrated_with_ft2.launch" />
+
+</launch>

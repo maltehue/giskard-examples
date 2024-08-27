@@ -105,3 +105,4 @@ CMD ["start-notebook.sh"]
 RUN pip install --upgrade jupyter-remote-desktop-proxy
 
 RUN cp ${ROS_WS}/src/silkie/src/silkie/silkie.py ${ROS_WS}/src/silkie_ros/src/silkie_ros/silkie.py
+RUN unzip ${PWD}/notebooks/draining70outOf100.zip -d ${PWD}/notebooks

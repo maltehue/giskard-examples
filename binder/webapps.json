@@ -2,9 +2,7 @@
   {
     "name": "rvizweb",
     "title": "Rvizweb",
-    "url": "proxy/8001/rvizweb/webapps/rvizweb/build/www/index.html",
-    "mode": "split-right",
-    "start": true
+    "url": "proxy/8001/rvizweb/webapps/rvizweb/build/www/index.html"
   },
   {
     "name": "XPRA",
@@ -33,6 +31,8 @@
   {
     "name": "desktop",
     "title": "VNC Desktop (Embedded)",
-    "url": "desktop"
+    "url": "desktop",
+    "mode": "split-right",
+    "start": true
   }
 ]
