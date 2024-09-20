@@ -1,7 +1,7 @@
 - git:
     local-name: giskardpy
     uri: https://github.com/SemRoCo/giskardpy.git
-    version: b9227d5906c6d5e37420f5836c213f77802b7d3b
+    version: adaptiveGoals
 - git: 
     local-name: giskard_msgs
     uri: https://github.com/SemRoCo/giskard_msgs.git
