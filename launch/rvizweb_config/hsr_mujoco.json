@@ -39,10 +39,10 @@
       "type": "grid"
     },
     {
-      "isShown": false,
+      "isShown": true,
       "name": "Robot model",
       "options": {
-        "param": "/hsrb4s/robot_description",
+        "param": "/tracy/robot_description",
         "tfPrefix": ""
       },
       "type": "urdf"
@@ -54,6 +54,15 @@
         "topic": "/giskard/visualization_marker_array"
       },
       "type": "markerArray"
+    },
+    {
+      "isShown": true,
+      "name": "Robot model",
+      "options": {
+        "param": "/kevin/robot_description",
+        "tfPrefix": ""
+      },
+      "type": "urdf"
     }
   ]
 }
