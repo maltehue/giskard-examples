@@ -39,7 +39,7 @@ def run_demo():
                                                                     [0, 1, 0, 0],
                                                                     [0, 0, 0, 1]]))
     sbs_pose.pose.position = Point(1.9, 0, 0.91)
-    giskard.world.add_mesh(name='sbs', mesh='data/Falcon6erSBS.STL', pose=sbs_pose,
+    giskard.world.add_mesh(name='sbs', mesh='package://giskardpy/test/data/Falcon6erSBS.STL', pose=sbs_pose,
                            scale=(0.001, 0.001, 0.001))
 
     cold_pose = PoseStamped()
@@ -49,7 +49,7 @@ def run_demo():
                                                                      [0, 1, 0, 0],
                                                                      [0, 0, 0, 1]]))
     cold_pose.pose.position = Point(1.9, 0.5, 0.91)
-    giskard.world.add_mesh(name='coldplate', mesh='data/coldplate.stl',
+    giskard.world.add_mesh(name='coldplate', mesh='package://giskardpy/test/data/coldplate.stl',
                            pose=cold_pose,
                            scale=(0.001, 0.001, 0.001))
 
