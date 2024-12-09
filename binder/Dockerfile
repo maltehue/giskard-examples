@@ -100,6 +100,11 @@ RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 RUN cp data/coldplate.stl ROS_WS/src/giskardpy/test/data/
 RUN cp data/Falcon6erSBS.STL ROS_WS/src/giskardpy/test/data/
 
+RUN cp data/Falcon6erSBS.obj ROS_WS/src/giskardpy/tmp/kevin/
+RUN cp data/coldplate.obj ROS_WS/src/giskardpy/tmp/kevin/
+RUN cp data/Falcon6erSBS_decomposed.obj ROS_WS/src/giskardpy/tmp/kevin/
+RUN cp data/coldplate_decomposed.obj ROS_WS/src/giskardpy/tmp/kevin/
+
 # jupyterlab interface configuration
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
