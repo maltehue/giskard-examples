@@ -33,7 +33,7 @@ RUN echo "Installing TurboVNC"; \
         turbovnc \
     ; \
     rm -rf /var/lib/apt/lists/*;
-RUN apt-get install ros-noetic-universal-robots
+RUN apt-get update && apt-get install ros-noetic-universal-robots
 USER $NB_USER
 RUN conda install -y websockify
 RUN pip install jupyter-remote-desktop-proxy
