@@ -108,6 +108,7 @@ CMD ["start-notebook.sh"]
 
 RUN pip install --upgrade jupyter-remote-desktop-proxy
 
+RUN mkdir -p ROS_WS/src/giskardpy/tmp/kevin
 RUN cp data/Falcon6erSBS.obj ROS_WS/src/giskardpy/tmp/kevin/
 RUN cp data/coldplate.obj ROS_WS/src/giskardpy/tmp/kevin/
 RUN cp data/Falcon6erSBS_decomposed.obj ROS_WS/src/giskardpy/tmp/kevin/
