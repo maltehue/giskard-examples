@@ -84,6 +84,7 @@ WORKDIR  ${ROS_WS}
 RUN rm -rf src/iai_pr2/iai_pr2_donbot
 # Upldate rvizweb
 RUN cd src/rvizweb && git pull
+RUN apt-get install ros-noetic-universal-robots
 RUN catkin build
 
 # Copy the giskard tmp meshes to skip the converting step

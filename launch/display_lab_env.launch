@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(find iai_tracy_description)/launch/upload.launch" ns="tracy"/>
+
+  <include file="$(find iai_urg_kevin_robot_description)/launch/kevin_upload.launch" ns="kevin"/>
+
+</launch>
