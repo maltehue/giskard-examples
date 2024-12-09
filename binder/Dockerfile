@@ -97,8 +97,8 @@ RUN git config --global --add safe.directory ${PWD}
 # Soft link the ROS workspace directory to the working directory
 RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 
-RUN cp cp data/coldplate.stl ROS_WS/src/giskardpy/test/data/
-RUN cp cp data/Falcon6erSBS.STL ROS_WS/src/giskardpy/test/data/
+RUN cp data/coldplate.stl ROS_WS/src/giskardpy/test/data/
+RUN cp data/Falcon6erSBS.STL ROS_WS/src/giskardpy/test/data/
 
 # jupyterlab interface configuration
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
