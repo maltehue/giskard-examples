@@ -39,7 +39,7 @@
       "type": "grid"
     },
     {
-      "isShown": true,
+      "isShown": false,
       "name": "Robot model",
       "options": {
         "param": "/hsrb4s/robot_description",
@@ -49,9 +49,9 @@
     },
     {
       "isShown": true,
-      "name": "mujoco vis",
+      "name": "giskard vis",
       "options": {
-        "topic": "/mujoco/visualization_marker_array"
+        "topic": "/giskard/visualization_marker_array"
       },
       "type": "markerArray"
     }

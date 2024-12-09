@@ -1,7 +1,7 @@
 - git:
     local-name: giskardpy
     uri: https://github.com/SemRoCo/giskardpy.git
-    version: 5733cd83eab56d5f9ff53c23aa7a8808e4672cc2
+    version: kevin
 - git: 
     local-name: giskard_msgs
     uri: https://github.com/SemRoCo/giskard_msgs.git
@@ -43,25 +43,14 @@
     uri: https://github.com/code-iai/omni_pose_follower.git
     version: master
 - git:
-    local-name: mujoco_msgs
-    uri: https://github.com/kaviyachandran/mujoco_msgs.git
-    version: contacts
+    local-name: iai_robots
+    uri: https://github.com/code-iai/iai_robots.git
+    version: master
 - git:
-    local-name: mujoco_sim
-    uri: https://github.com/HoangGiang93/mujoco_sim.git
-- git:
-    local-name: mujoco_robots
-    uri: https://github.com/maltehue/mujoco_robots.git
+    local-name: iai_robots_peripherals
+    uri: https://github.com/code-iai/iai_robot_peripherals.git
     version: main
-- git:
-    local-name: silkie_ros
-    uri: https://github.com/kaviyachandran/silkie_ros.git
-    version: vrb
-- git:
-    local-name: silkie
-    uri: https://github.com/kaviyachandran/silkie.git
-    version: devel
-# Can not merge the the following repo because of the SSH urls in the .gitmodules file
-# - git:
-#     local-name: mujoco_world
-#     uri: https://github.com/HoangGiang93/mujoco_world.git
+
+
+
+
