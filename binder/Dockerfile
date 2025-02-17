@@ -39,10 +39,11 @@ RUN conda install -y websockify
 RUN pip install jupyter-remote-desktop-proxy
 ENV DISPLAY=:1
 
+USER root
 # install giskardpy library
 RUN mkdir -p /libs && cd /libs && git clone -b library_standalone_vrb https://github.com/SemRoCo/giskardpy.git
 RUN cd /libs/giskardpy && pip3 install -r requirements.txt && pip3 install -e .
-
+USER $NB_USER
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
 WORKDIR ${ROS_WS}/src
