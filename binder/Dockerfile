@@ -39,6 +39,10 @@ RUN conda install -y websockify
 RUN pip install jupyter-remote-desktop-proxy
 ENV DISPLAY=:1
 
+# install giskardpy library
+RUN mkdir -p /libs && cd /libs && git clone -b library_standalone_vrb https://github.com/SemRoCo/giskardpy.git
+RUN cd /libs/giskardpy && pip3 install -r requirements.txt && pip3 install -e .
+
 # Initiate ROS workspace 
 ENV ROS_WS=/home/${NB_USER}/workspace/ros
 WORKDIR ${ROS_WS}/src
@@ -49,6 +53,8 @@ COPY --chown=${NB_USER}:users binder/noetic.rosinstall /home/${NB_USER}/noetic.r
 RUN wstool merge /home/${NB_USER}/noetic.rosinstall \
   && wstool update
 
+WORKDIR /home/${NB_USER}/giskard_examples
+COPY dlr_kitchen ${ROS_WS}/src/dlr_kitchen
 # Install dependencies
 WORKDIR  ${ROS_WS}
 USER root
@@ -57,7 +63,7 @@ RUN rosdep update && apt update && apt dist-upgrade -y \
   && rosdep fix-permissions \
   && apt install -y ffmpeg libglfw3 libglfw3-dev
 USER ${NB_USER}
-RUN pip install -r src/giskardpy/requirements.txt
+#RUN pip install -r src/giskardpy/requirements.txt
 
 # Install missing python packages (should be included in src/giskardpy/requirements.txt)
 RUN pip install termcolor pydot triangle cython~=0.19 igraph
@@ -97,9 +103,6 @@ RUN git config --global --add safe.directory ${PWD}
 # Soft link the ROS workspace directory to the working directory
 RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 
-RUN cp data/coldplate.stl ROS_WS/src/giskardpy/test/data/
-RUN cp data/Falcon6erSBS.STL ROS_WS/src/giskardpy/test/data/
-
 # jupyterlab interface configuration
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
@@ -108,9 +111,5 @@ CMD ["start-notebook.sh"]
 
 RUN pip install --upgrade jupyter-remote-desktop-proxy
 
-RUN mkdir -p ROS_WS/src/giskardpy/tmp/kevin
-RUN cp data/Falcon6erSBS.obj ROS_WS/src/giskardpy/tmp/kevin/
-RUN cp data/coldplate.obj ROS_WS/src/giskardpy/tmp/kevin/
-RUN cp data/Falcon6erSBS_decomposed.obj ROS_WS/src/giskardpy/tmp/kevin/
-RUN cp data/coldplate_decomposed.obj ROS_WS/src/giskardpy/tmp/kevin/
+
 

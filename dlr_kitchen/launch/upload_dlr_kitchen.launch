@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <!-- Load the kitchen description -->
+    <param name="kitchen_description" command="$(find xacro)/xacro '$(find dlr_kitchen)/dlr_kitchen/dlr_kitchen.urdf'" />
+
+    <node pkg="tf" type="static_transform_publisher" name="world_to_kitchen" args="0 0 0 0 0 0 map dlr_kitchen 100" />
+
+
+</launch>
