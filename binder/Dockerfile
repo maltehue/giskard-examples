@@ -102,7 +102,7 @@ COPY --chown=${NB_USER}:users . /home/${NB_USER}/giskard_examples
 WORKDIR /home/${NB_USER}/giskard_examples
 RUN git config --global --add safe.directory ${PWD}
 # Soft link the ROS workspace directory to the working directory
-RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
+# RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 
 # jupyterlab interface configuration
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
