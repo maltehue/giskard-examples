@@ -92,9 +92,8 @@ RUN cd qpSWIFT && \
     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && \
     cmake --build build --config Release && \
     cmake --build build --target install
-USER ${NB_USER}
 RUN cd qpSWIFT/python && python setup.py install
-
+USER ${NB_USER}
 # Build ROS workspace
 WORKDIR  ${ROS_WS}
 # Can not build package iai_pr2_donbot and it is not used
