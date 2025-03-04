@@ -21,6 +21,13 @@ RUN apt-get -y -qq update \
  && chown -R $NB_UID:$NB_GID $HOME /opt/install \
  && rm -rf /var/lib/apt/lists/*
 
+#install prolog
+RUN apt-add-repository ppa:swi-prolog/stable
+RUN apt-get update
+RUN apt-get install swi-prolog
+
+RUN pip install -U pyswip
+
 # Install a VNC server, either TigerVNC (default) or TurboVNC
 ENV PATH=/opt/TurboVNC/bin:$PATH
 RUN echo "Installing TurboVNC"; \
