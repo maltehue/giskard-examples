@@ -22,6 +22,7 @@ RUN apt-get -y -qq update \
  && rm -rf /var/lib/apt/lists/*
 
 #install prolog
+RUN apt-get install software-properties-common
 RUN apt-add-repository ppa:swi-prolog/stable
 RUN apt-get update
 RUN apt-get install swi-prolog
