@@ -40,15 +40,6 @@
     },
     {
       "isShown": true,
-      "name": "Robot model",
-      "options": {
-        "param": "/tracy/robot_description",
-        "tfPrefix": ""
-      },
-      "type": "urdf"
-    },
-    {
-      "isShown": true,
       "name": "giskard vis",
       "options": {
         "topic": "/giskard/visualization_marker_array"
@@ -57,12 +48,11 @@
     },
     {
       "isShown": true,
-      "name": "Robot model",
+      "name": "Marker array",
       "options": {
-        "param": "/kevin/robot_description",
-        "tfPrefix": ""
+        "topic": "/trajectory_markers"
       },
-      "type": "urdf"
+      "type": "markerArray"
     }
   ]
 }
