@@ -80,7 +80,7 @@ USER ${NB_USER}
 
 # Install missing python packages (should be included in src/giskardpy/requirements.txt)
 RUN pip install termcolor pydot triangle cython~=0.19 igraph
-RUN pip install numpy==1.24.3
+#RUN pip install numpy==1.24.3
 
 # Building Custom bullet3 from source with Python 3.10 (in a clumsy way)
 WORKDIR /home/${NB_USER}
