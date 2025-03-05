@@ -116,7 +116,8 @@ RUN cd src/rvizweb && git pull
 RUN catkin build
 
 # Copy the giskard tmp meshes to skip the converting step
-COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy/tmp
+RUN mkdir ${ROS_WS}/src/giskardpy_ros/tmp
+COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy_ros/tmp
 # The giskard standalone does not publish tf messaages by default set it to true for rvizweb
 # RUN sed -i 's/publish_tf: bool = False/publish_tf: bool = True/g' ${ROS_WS}/src/giskardpy/src/giskardpy/configs/behavior_tree_config.py
 # Copy contents of the repo into the image
