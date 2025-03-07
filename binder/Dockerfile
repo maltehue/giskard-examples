@@ -55,7 +55,7 @@ USER root
 # install giskardpy library
 RUN mkdir -p /libs && cd /libs && git clone -b library_standalone https://github.com/SemRoCo/giskardpy.git
 RUN cd /libs/giskardpy && pip3 install -r requirements.txt
-RUN pip install --upgrade pip setuptools
+RUN conda run -n base /bin/bash -c "pip install --no-cache-dir --upgrade pip setuptools wheel"
 RUN cd /libs/giskardpy && pip3 install -e .
 USER $NB_USER
 # Initiate ROS workspace 
