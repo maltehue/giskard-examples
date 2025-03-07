@@ -57,6 +57,7 @@ RUN mkdir -p /libs && cd /libs && git clone -b library_standalone https://github
 RUN cd /libs/giskardpy && pip3 install -r requirements.txt
 RUN conda run -n base /bin/bash -c "pip install --no-cache-dir --upgrade pip setuptools wheel"
 RUN conda run -n base /bin/bash -c "python -c 'import setuptools; print(setuptools.__version__)'"
+RUN conda run -n base /bin/bash -c "pip uninstall -y backports && pip install --no-cache-dir backports.tarfile"
 RUN conda run -n base /bin/bash -c "pip install --force-reinstall --no-cache-dir setuptools backports.tarfile"
 RUN conda run -n base /bin/bash -c "cd /libs/giskardpy && pip install -e ."
 USER $NB_USER
