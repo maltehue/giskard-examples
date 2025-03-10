@@ -67,6 +67,8 @@ COPY --chown=${NB_USER}:users binder/noetic.rosinstall /home/${NB_USER}/noetic.r
 RUN wstool merge /home/${NB_USER}/noetic.rosinstall \
   && wstool update
 
+RUN pip install -r giskardpy_ros/equirements.txt
+
 WORKDIR /home/${NB_USER}/giskard_examples
 COPY dlr_kitchen ${ROS_WS}/src/dlr_kitchen
 # Install dependencies
@@ -84,20 +86,23 @@ RUN pip install termcolor pydot triangle cython~=0.19 igraph
 #RUN pip install numpy==1.24.3
 
 # Building Custom bullet3 from source with Python 3.10 (in a clumsy way)
-WORKDIR /home/${NB_USER}
-RUN git clone https://github.com/pybind/pybind11.git \
-  && cd pybind11 \
-  && mkdir build \
-  && cd build \
-  && cmake .. -DCMAKE_BUILD_TYPE=Release -DPYBIND11_PYTHON_VERSION=3 -DPYBIND11_TEST=OFF
-USER root
-RUN cd pybind11/build && make install
-USER ${NB_USER}
-
+WORKDIR /libs
 RUN git clone https://github.com/SemRoCo/bullet3.git
-COPY --chown=${NB_USER}:users binder/build_cmake_pybullet_3.10_double.sh /home/${NB_USER}/bullet3/
-RUN cd bullet3 && ./build_cmake_pybullet_3.10_double.sh
-ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:/home/${NB_USER}/bullet3/examples/pybullet
+RUN cd bullet3 && ./build_better_pybullet.sh
+#WORKDIR /home/${NB_USER}
+#RUN git clone https://github.com/pybind/pybind11.git \
+#  && cd pybind11 \
+#  && mkdir build \
+#  && cd build \
+#  && cmake .. -DCMAKE_BUILD_TYPE=Release -DPYBIND11_PYTHON_VERSION=3 -DPYBIND11_TEST=OFF
+#USER root
+#RUN cd pybind11/build && make install
+#USER ${NB_USER}
+#
+#RUN git clone https://github.com/SemRoCo/bullet3.git
+#COPY --chown=${NB_USER}:users binder/build_cmake_pybullet_3.10_double.sh /home/${NB_USER}/bullet3/
+#RUN cd bullet3 && ./build_cmake_pybullet_3.10_double.sh
+#ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:/home/${NB_USER}/bullet3/examples/pybullet
 
 # Build qpSWIFT
 RUN git clone https://github.com/qpSWIFT/qpSWIFT.git
