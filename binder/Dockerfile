@@ -86,9 +86,11 @@ RUN pip install termcolor pydot triangle cython~=0.19 igraph
 #RUN pip install numpy==1.24.3
 
 # Building Custom bullet3 from source with Python 3.10 (in a clumsy way)
+USER root
 WORKDIR /libs
 RUN git clone https://github.com/SemRoCo/bullet3.git
 RUN cd bullet3 && ./build_better_pybullet.sh
+USER ${NB_USER}
 #WORKDIR /home/${NB_USER}
 #RUN git clone https://github.com/pybind/pybind11.git \
 #  && cd pybind11 \
