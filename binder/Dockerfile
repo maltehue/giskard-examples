@@ -22,16 +22,6 @@ RUN apt-get -y -qq update \
  && chown -R $NB_UID:$NB_GID $HOME /opt/install \
  && rm -rf /var/lib/apt/lists/*
 
-# Install SWI Prolog
-# Source: https://www.swi-prolog.org/build/PPA.html
-USER root
-RUN apt-add-repository -y ppa:swi-prolog/stable
-RUN apt update && \
-    apt install -y swi-prolog*
-ENV SWI_HOME_DIR=/usr/lib/swi-prolog
-ENV LD_LIBRARY_PATH=/usr/lib/swi-prolog/lib/x86_64-linux:$LD_LIBRARY_PATH
-
-RUN pip install -U pyswip
 
 # Install a VNC server, either TigerVNC (default) or TurboVNC
 ENV PATH=/opt/TurboVNC/bin:$PATH
