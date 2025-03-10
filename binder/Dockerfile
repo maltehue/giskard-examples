@@ -67,7 +67,7 @@ COPY --chown=${NB_USER}:users binder/noetic.rosinstall /home/${NB_USER}/noetic.r
 RUN wstool merge /home/${NB_USER}/noetic.rosinstall \
   && wstool update
 
-RUN pip install -r giskardpy_ros/equirements.txt
+RUN pip install -r giskardpy_ros/requirements.txt
 
 WORKDIR /home/${NB_USER}/giskard_examples
 COPY dlr_kitchen ${ROS_WS}/src/dlr_kitchen
