@@ -91,7 +91,7 @@ WORKDIR /libs
 RUN git clone https://github.com/SemRoCo/bullet3.git
 RUN cd bullet3 && ./build_better_pybullet.sh
 USER ${NB_USER}
-#WORKDIR /home/${NB_USER}
+WORKDIR /home/${NB_USER}
 #RUN git clone https://github.com/pybind/pybind11.git \
 #  && cd pybind11 \
 #  && mkdir build \
