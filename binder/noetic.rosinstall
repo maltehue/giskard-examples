@@ -1,11 +1,11 @@
 - git:
     local-name: giskardpy_ros
     uri: https://github.com/SemRoCo/giskardpy_ros.git
-    version: ros1-noetic-main
+    version: 7b8a6a3e5bd5decf6585fb5403ecc383026062ed
 - git: 
     local-name: giskard_msgs
     uri: https://github.com/SemRoCo/giskard_msgs.git
-    version: lib_motion_graph_reset
+    version: 01ce6b3cc3b62e3a162c007504952e5b8987213f
 - git:
     local-name: qpoases
     uri: https://github.com/SemRoCo/qpOASES.git
