@@ -43,7 +43,7 @@ ENV DISPLAY=:1
 
 USER root
 # install giskardpy library
-RUN mkdir -p /libs && cd /libs && git clone -b library_standalone_vrb https://github.com/SemRoCo/giskardpy.git
+RUN mkdir -p /libs && cd /libs && git clone -b giskard_library https://github.com/SemRoCo/giskardpy.git
 RUN cd /libs/giskardpy && pip3 install -r requirements.txt
 RUN cd /libs/giskardpy && pip3 install -e .
 USER $NB_USER
@@ -93,7 +93,7 @@ ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:
 
 
 # Build qpSWIFT
-RUN git clone https://github.com/qpSWIFT/qpSWIFT.git
+RUN git clone https://github.com/SemRoCo/qpSWIFT.git
 USER root
 RUN cd qpSWIFT && \
     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && \
