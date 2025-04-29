@@ -1,7 +1,7 @@
 - git:
     local-name: giskardpy_ros
     uri: https://github.com/SemRoCo/giskardpy_ros.git
-    version: ros1-lib_motion_graph_reset
+    version: ros1-noetic-main
 - git: 
     local-name: giskard_msgs
     uri: https://github.com/SemRoCo/giskard_msgs.git
