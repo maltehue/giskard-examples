@@ -93,7 +93,7 @@ ENV PYTHONPATH=${PYTHONPATH}:/home/${NB_USER}/bullet3/build_cmake/better_python:
 
 
 # Build qpSWIFT
-RUN git clone https://github.com/SemRoCo/qpSWIFT.git
+RUN git clone https://github.com/SemRoCo/qpSWIFT.git && git checkout dd376c0a351ca2ff11727efbd735c88d8c1e12d3
 USER root
 RUN cd qpSWIFT && \
     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && \
