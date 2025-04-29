@@ -177,4 +177,75 @@ def setup_demo():
 
     prolog.consult("kb.pl")
 
-    return prolog
+    import ipywidgets as widgets
+    from IPython.display import display
+
+    prolog = Prolog()
+
+    # Predefined suggested queries and their descriptions
+    suggested_queries = [
+        ('Query a knowledge base for all task request and state change pairs.', 'taskRequest(Request, StateChange).'),
+        ('Extend the query to find motions that achieve the state change.', 'taskRequest(Request, StateChange),\n'
+                                   'causes(Motion, StateChange, MotionParam).'),
+        ('Finalize the query to find a suitable body motion for the robot.', 'taskRequest(Request, StateChange),\n '
+                                            'causes(Motion, StateChange, MotionParam),\n '
+                                            'canPerform(Robot, Motion, MotionParam).')
+    ]
+
+    # Helper to create one query block
+    def create_query_block(description_text, suggested_query):
+        description_label = widgets.HTML(
+            value=f"<b>{description_text}</b>",
+            layout=widgets.Layout(margin='10px 0px 5px 0px')
+        )
+
+        query_input = widgets.Textarea(
+            value=suggested_query,
+            placeholder='Enter Prolog query...',
+            description='Query:',
+            layout=widgets.Layout(width='100%', height='80px')
+        )
+
+        run_button = widgets.Button(description="Run Query", button_style='success')
+        next_button = widgets.Button(description="Next Solution", button_style='info')
+        output_area = widgets.Output()
+
+        query_gen = {'gen': None}  # Mutable container to allow modifying inside handlers
+
+        def run_query(_):
+            query = query_input.value.strip()
+            output_area.clear_output()
+            next_button.disabled = False
+            try:
+                query_gen['gen'] = prolog.query(query)
+                with output_area:
+                    print(f"Query: {query}")
+            except Exception as e:
+                with output_area:
+                    print(f"Error: {e}")
+                query_gen['gen'] = None
+                next_button.disabled = True
+
+        def next_solution(_):
+            if query_gen['gen'] is None:
+                return
+            with output_area:
+                try:
+                    solution = next(query_gen['gen'])
+                    print(solution)
+                except StopIteration:
+                    print("No more solutions.")
+                    next_button.disabled = True
+
+        run_button.on_click(run_query)
+        next_button.on_click(next_solution)
+        next_button.disabled = True  # Disabled until query is run
+
+        controls = widgets.HBox([run_button, next_button])
+        block = widgets.VBox([description_label, query_input, controls, output_area])
+        return block
+
+    # Create and display three query blocks
+    blocks = [create_query_block(desc, query) for desc, query in suggested_queries]
+    for block in blocks:
+        display(block)

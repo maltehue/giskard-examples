@@ -9,7 +9,6 @@ handle(fridge_door_handle).
 gripper(pr2, l_gripper_tool_frame).
 gripper(pr2, r_gripper_tool_frame).
 
-openState(fridge, -1).
 openState(fridge, 0.8).
 openState(drawer_01, 0.2).
 
