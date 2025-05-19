@@ -43,7 +43,7 @@ ENV DISPLAY=:1
 
 USER root
 # install giskardpy library
-RUN mkdir -p /libs && cd /libs && git clone -b giskard_library https://github.com/SemRoCo/giskardpy.git && cd giskardpy && git checkout 8f39badafc7ee9c9b43587f16e707f3a18098a6a
+RUN mkdir -p /libs && cd /libs && git clone -b giskard_library https://github.com/SemRoCo/giskardpy.git && cd giskardpy && git checkout 736efc57df656c1842bc3f17f523765d2fe927e9
 RUN cd /libs/giskardpy && pip3 install -r requirements.txt
 RUN cd /libs/giskardpy && pip3 install -e .
 USER $NB_USER
