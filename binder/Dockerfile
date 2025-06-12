@@ -1,5 +1,4 @@
 FROM intel4coro/base-notebook:20.04-noetic
-RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
 
 # Install VNC server and XFCE desktop environment
 USER root
@@ -24,6 +23,8 @@ RUN apt-get -y -qq update \
  && mkdir -p /opt/install \
  && chown -R $NB_UID:$NB_GID $HOME /opt/install \
  && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
 
 # Install SWI Prolog
 # Source: https://www.swi-prolog.org/build/PPA.html
