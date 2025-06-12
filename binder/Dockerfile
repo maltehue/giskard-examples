@@ -13,6 +13,8 @@ RUN apt-get -y -qq update \
         xubuntu-icon-theme \
         fonts-dejavu \
         software-properties-common \
+        graphviz \
+        graphviz-dev \
     # Disable the automatic screenlock since the account password is unknown
  && apt-get -y -qq remove xfce4-screensaver \
     # chown $HOME to workaround that the xorg installation creates a
@@ -31,7 +33,7 @@ RUN apt update && \
 ENV SWI_HOME_DIR=/usr/lib/swi-prolog
 ENV LD_LIBRARY_PATH=/usr/lib/swi-prolog/lib/x86_64-linux:$LD_LIBRARY_PATH
 
-RUN pip install -U pyswip
+RUN pip install -U pyswip ripple_down_rules
 
 # Install a VNC server, either TigerVNC (default) or TurboVNC
 ENV PATH=/opt/TurboVNC/bin:$PATH
@@ -118,6 +120,10 @@ RUN catkin build
 # Copy the giskard tmp meshes to skip the converting step
 RUN mkdir ${ROS_WS}/src/giskardpy_ros/tmp
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy_ros/tmp
+
+# install semantic world
+RUN git clone git@github.com:tomsch420/semantic_world.git && pip install semantic_world/
+
 # The giskard standalone does not publish tf messaages by default set it to true for rvizweb
 # RUN sed -i 's/publish_tf: bool = False/publish_tf: bool = True/g' ${ROS_WS}/src/giskardpy/src/giskardpy/configs/behavior_tree_config.py
 # Copy contents of the repo into the image

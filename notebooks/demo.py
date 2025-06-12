@@ -185,9 +185,19 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
     # this function loads all container names into the knowledge base as container entities
     def load_container(pl):
         fridge_list = [v.body.name.name for v in found_views if isinstance(v, Fridge)]
-        container_list = [v.body.name.name for v in found_views if isinstance(v, Container)]
-        for container in container_list:
-            pl.assertz(f'container({container})')
+        drawer_list = [v.body.name.name for v in found_views if isinstance(v, Drawer)]
+        for drawer in drawer_list:
+            pl.assertz(f'container({drawer})')
+            pl.assertz(f'drawer({drawer})')
+            pl.assertz(f'closeState({drawer}, {0})')
+            pl.assertz(f'openState({drawer}, {0.2})')
+            pl.assertz(f'state({drawer}, closed)')
+        for fridge in fridge_list:
+            pl.assertz(f'container({fridge})')
+            pl.assertz(f'fridge({fridge})')
+            pl.assertz(f'closeState({fridge}, {0})')
+            pl.assertz(f'openState({fridge}, {0.8})')
+            pl.assertz(f'state({fridge}, closed)')
 
     registerForeign(container_articulation, arity=3)
     load_container(prolog)

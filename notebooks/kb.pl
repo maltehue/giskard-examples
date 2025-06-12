@@ -3,16 +3,7 @@
 gripper(pr2, l_gripper_tool_frame).
 gripper(pr2, r_gripper_tool_frame).
 
-openState(fridge, 0.8).
-openState(drawer_01, 0.2).
-
-closeState(fridge, 0).
-closeState(drawer_01, 0).
-
 robot(pr2).
-
-state(fridge , closed).
-state(drawer_01, closed).
 
 motion(envJointGoal).
 
