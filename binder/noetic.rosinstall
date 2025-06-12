@@ -11,14 +11,6 @@
     uri: https://github.com/SemRoCo/qpOASES.git
     version: v3.2.1
 - git:
-    local-name: orocos_kinematics_dynamics
-    uri: https://github.com/orocos/orocos_kinematics_dynamics.git
-    version: v1.5.1
-- git:
-    local-name: ros_controllers
-    uri: https://github.com/ros-controls/ros_controllers.git
-    version: noetic-devel
-- git:
     local-name: iai_pr2
     uri: https://github.com/code-iai/iai_pr2.git
     version:  mujoco_sim_setup

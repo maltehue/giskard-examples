@@ -75,8 +75,7 @@ COPY dlr_kitchen ${ROS_WS}/src/dlr_kitchen
 # Install dependencies
 WORKDIR  ${ROS_WS}
 USER root
-RUN rosdep update
-RUN apt update && apt dist-upgrade -y \
+RUN rosdep update && apt update && apt dist-upgrade -y --fix-missing || true \
   && rosdep install -y --ignore-src --from-paths ./ -r \
   && rosdep fix-permissions \
   && apt install -y ffmpeg libglfw3 libglfw3-dev
@@ -125,8 +124,9 @@ RUN mkdir ${ROS_WS}/src/giskardpy_ros/tmp
 COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskardpy_ros/tmp
 
 # install semantic world
-RUN git clone git@github.com:tomsch420/semantic_world.git && pip install semantic_world/
-
+USER root
+RUN git clone https://github.com/tomsch420/semantic_world.git && pip install semantic_world/
+USER ${NB_USER}
 # The giskard standalone does not publish tf messaages by default set it to true for rvizweb
 # RUN sed -i 's/publish_tf: bool = False/publish_tf: bool = True/g' ${ROS_WS}/src/giskardpy/src/giskardpy/configs/behavior_tree_config.py
 # Copy contents of the repo into the image

@@ -1,4 +1,4 @@
-from py_trees.behaviours import failure
+
 
 from giskardpy_ros.python_interface.python_interface import GiskardWrapper
 import rospy
