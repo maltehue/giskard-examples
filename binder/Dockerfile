@@ -1,4 +1,5 @@
 FROM intel4coro/base-notebook:20.04-noetic
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 
 # Install VNC server and XFCE desktop environment
 USER root
