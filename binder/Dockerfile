@@ -75,7 +75,8 @@ COPY dlr_kitchen ${ROS_WS}/src/dlr_kitchen
 # Install dependencies
 WORKDIR  ${ROS_WS}
 USER root
-RUN rosdep init && rosdep update && apt update && apt dist-upgrade -y \
+RUN rosdep update
+RUN apt update && apt dist-upgrade -y \
   && rosdep install -y --ignore-src --from-paths ./ -r \
   && rosdep fix-permissions \
   && apt install -y ffmpeg libglfw3 libglfw3-dev
