@@ -1,11 +1,5 @@
 % Knowledge Base
 
-container(fridge).
-container(drawer_01).
-
-handle(drawer_01_handle).
-handle(fridge_door_handle).
-
 gripper(pr2, l_gripper_tool_frame).
 gripper(pr2, r_gripper_tool_frame).
 
@@ -39,15 +33,11 @@ holds(open(Container), task_end([perform, [action, [type, open], [object_acted_o
 holds(close(Container), task_end([perform, [action, [type, close], [object_acted_on, Container]]])).
 
 environmentForStateChange(open(Container), Handle, Joint, GoalState) :- container(Container),
-                                                                        handle(Handle),
-                                                                        hasArticulation(Joint, Handle),
-                                                                        partOf(Handle, Container),
+                                                                        container_articulation(Container, Handle, Joint)
                                                                         openState(Container, GoalState),
                                                                         state(Container, closed).
 environmentForStateChange(close(Container), Handle, Joint, GoalState) :- container(Container),
-                                                                        handle(Handle),
-                                                                        hasArticulation(Joint, Handle),
-                                                                        partOf(Handle, Container),
+                                                                        container_articulation(Container, Handle, Joint)
                                                                         closeState(Container, GoalState),
                                                                         state(Container, opened).
 

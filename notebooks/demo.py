@@ -11,9 +11,13 @@ import rospy
 from trajectory_msgs.msg import JointTrajectory
 from visualization_msgs.msg import Marker, MarkerArray
 from std_msgs.msg import ColorRGBA
+import os
+from semantic_world.adapters.urdf import URDFParser
+from semantic_world.views import *
+from semantic_world.views.world_rdr.world_rdr import classify
+from semantic_world.connections import RevoluteConnection, PrismaticConnection
 
-
-def setup_demo():
+def setup_demo(file_path='dlr_kitchen.urdf'):
     rospy.init_node('test')
     giskard = GiskardWrapper()
     prolog = Prolog()
@@ -66,17 +70,6 @@ def setup_demo():
     giskard.motion_goals.allow_all_collisions()
     r = giskard.execute()
 
-    # create local giskard world model
-    urdf = open('pr2_local.urdf', 'r').read()
-    config = WorldWithOmniDriveRobot(urdf=urdf)
-    with config.world.modify_world():
-        config.setup()
-    config.world.register_controlled_joints(config.world.movable_joint_names)
-
-    t = TransMatrix()
-    with config.world.modify_world():
-        config.world.add_urdf(open('dlr_kitchen.urdf', 'r').read(), parent_link_name='map', pose=t)
-
     # foreign functions
     def execute():
         giskard.motion_goals.allow_all_collisions()
@@ -90,6 +83,7 @@ def setup_demo():
         giskard.motion_goals.add_cartesian_pose(pose, 'base_link', 'map')
         giskard.add_default_end_motion_conditions()
 
+    # opens a container without the robot and plots the trajectory
     def traj_open_container(motion, joint, goalState, handle):
         if str(motion) != 'envJointGoal':
             return False
@@ -117,6 +111,7 @@ def setup_demo():
             # feedback.unify(str('failure'))
             return False
 
+    # creates a goal to open a container with the robot but does not execute it
     def add_open_container(motion, joint, goalState, handle, gripper):
         if str(motion) != 'envJointGoal':
             return False
@@ -141,6 +136,7 @@ def setup_demo():
         loc = giskard.monitors.add_local_minimum_reached()
         giskard.monitors.add_cancel_motion(loc, Exception('local min'))
 
+    # evaluates if the giskard execution in projection mode was successful
     def giskard_project_eval():
         giskard.motion_goals.allow_all_collisions()
         res = giskard.projection()
@@ -152,36 +148,55 @@ def setup_demo():
             # feedback.unify(str('failure'))
             return False
 
+    # register those functions to be called from prolog
     registerForeign(add_init_pose, arity=0)
     registerForeign(add_open_container, arity=5)
     registerForeign(execute, arity=0)
     registerForeign(giskard_project_eval, arity=0)
     registerForeign(traj_open_container, arity=4)
 
-    def hasArticulation(joint, link):
-        tip = config.world.search_for_link_name(str(link))
-        result = config.world.get_movable_parent_joint(tip).short_name
-        if result:
-            joint.unify(str(result))
+    # create the views from the semantic world
+    env = os.path.join(file_path)
+    env_parser = URDFParser(env)
+    world = env_parser.parse()
+    world.validate()
+    found_views = classify(world)['views']
+
+    # create semantic world query function for the prolog interface from the views
+    # this function returns the corresponding handle and joint for a container name
+    def container_articulation(container, handle, joint):
+        c = str(container)
+        container_instance = [v for v in found_views if
+                              (isinstance(v, Fridge) or isinstance(v, Container)) and v.body.name.name == c]
+        if len(container_instance) == 1:
+            instance_connections = [c.dof.name.name for c in world.connections if
+                                    (isinstance(c, RevoluteConnection) or isinstance(c, PrismaticConnection)) and
+                                    (c.parent == container_instance[0].body or c.child == container_instance[0].body)]
+            if len(instance_connections) == 0:
+                return False
+            handle_name = [v.body.name.name for v in found_views if isinstance(v, Handle) and c in v.body.name.name]
+            if len(handle_name) == 0:
+                return False
+            handle.unify(handle_name[0])
+            joint.unify(instance_connections[0])
             return True
         return False
 
-    def partOf(link1, link2):
-        l1 = config.world.search_for_link_name(str(link1))
-        l2 = config.world.search_for_link_name(str(link2))
-        results = config.world.get_links_in_branch_of_link(l1)
-        return l2 in results
+    # this function loads all container names into the knowledge base as container entities
+    def load_container(pl):
+        fridge_list = [v.body.name.name for v in found_views if isinstance(v, Fridge)]
+        container_list = [v.body.name.name for v in found_views if isinstance(v, Container)]
+        for container in container_list:
+            pl.assertz(f'container({container})')
 
-    registerForeign(hasArticulation, arity=2)
-    registerForeign(partOf, arity=2)
-
+    registerForeign(container_articulation, arity=3)
+    load_container(prolog)
     prolog.consult("kb.pl")
 
     import ipywidgets as widgets
     from IPython.display import display
 
-    prolog = Prolog()
-
+    # From here the GUI and query code starts
     # Predefined suggested queries and their descriptions
     suggested_queries = [
         ('Query a knowledge base for all task request and state change pairs.', 'taskRequest(Request, StateChange).'),
