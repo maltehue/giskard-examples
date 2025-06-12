@@ -24,7 +24,7 @@ RUN apt-get -y -qq update \
  && chown -R $NB_UID:$NB_GID $HOME /opt/install \
  && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc -o /etc/apt/trusted.gpg.d/ros-archive-keyring.gpg
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/ros.gpg
 
 # Install SWI Prolog
 # Source: https://www.swi-prolog.org/build/PPA.html
