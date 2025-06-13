@@ -1,31 +1,5 @@
 FROM intel4coro/base-notebook:20.04-noetic
 
-# Install VNC server and XFCE desktop environment
-USER root
-RUN apt-get -y -qq update \
- && apt-get -y -qq install \
-        dbus-x11 \
-        xfce4 \
-        xfce4-panel \
-        xfce4-session \
-        xfce4-settings \
-        xorg \
-        xubuntu-icon-theme \
-        fonts-dejavu \
-        software-properties-common \
-        graphviz \
-        graphviz-dev \
-    # Disable the automatic screenlock since the account password is unknown
- && apt-get -y -qq remove xfce4-screensaver \
-    # chown $HOME to workaround that the xorg installation creates a
-    # /home/jovyan/.cache directory owned by root
-    # Create /opt/install to ensure it's writable by pip
- && mkdir -p /opt/install \
- && chown -R $NB_UID:$NB_GID $HOME /opt/install \
- && rm -rf /var/lib/apt/lists/*
-
-RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
-
 # Install SWI Prolog
 # Source: https://www.swi-prolog.org/build/PPA.html
 USER root
@@ -36,24 +10,6 @@ ENV SWI_HOME_DIR=/usr/lib/swi-prolog
 ENV LD_LIBRARY_PATH=/usr/lib/swi-prolog/lib/x86_64-linux:$LD_LIBRARY_PATH
 
 RUN pip install -U pyswip ripple_down_rules
-
-# Install a VNC server, either TigerVNC (default) or TurboVNC
-ENV PATH=/opt/TurboVNC/bin:$PATH
-RUN echo "Installing TurboVNC"; \
-    # Install instructions from https://turbovnc.org/Downloads/YUM
-    wget -q -O- https://packagecloud.io/dcommander/turbovnc/gpgkey | \
-    gpg --dearmor >/etc/apt/trusted.gpg.d/TurboVNC.gpg; \
-    wget -O /etc/apt/sources.list.d/TurboVNC.list https://raw.githubusercontent.com/TurboVNC/repo/main/TurboVNC.list; \
-    apt-get -y -qq update; \
-    apt-get -y -qq install \
-        turbovnc \
-    ; \
-    rm -rf /var/lib/apt/lists/*;
-RUN apt-get update -y -qq && apt-get install ros-noetic-universal-robots -y -qq
-USER $NB_USER
-RUN conda install -y websockify
-RUN pip install jupyter-remote-desktop-proxy
-ENV DISPLAY=:1
 
 USER root
 # install giskardpy library
@@ -75,7 +31,7 @@ COPY dlr_kitchen ${ROS_WS}/src/dlr_kitchen
 # Install dependencies
 WORKDIR  ${ROS_WS}
 USER root
-RUN rosdep update && apt update && apt dist-upgrade -y --fix-missing || true \
+RUN rosdep update --include-eol-distros && apt update && apt dist-upgrade -y \
   && rosdep install -y --ignore-src --from-paths ./ -r \
   && rosdep fix-permissions \
   && apt install -y ffmpeg libglfw3 libglfw3-dev
@@ -115,8 +71,7 @@ USER ${NB_USER}
 WORKDIR  ${ROS_WS}
 # Can not build package iai_pr2_donbot and it is not used
 RUN rm -rf src/iai_pr2/iai_pr2_donbot
-# Upldate rvizweb
-RUN cd src/rvizweb && git pull
+
 RUN catkin build
 
 # Copy the giskard tmp meshes to skip the converting step
@@ -127,8 +82,6 @@ COPY --chown=${NB_USER}:users binder/giskard_decomposed_obj ${ROS_WS}/src/giskar
 USER root
 RUN git clone https://github.com/tomsch420/semantic_world.git && pip install semantic_world/
 USER ${NB_USER}
-# The giskard standalone does not publish tf messaages by default set it to true for rvizweb
-# RUN sed -i 's/publish_tf: bool = False/publish_tf: bool = True/g' ${ROS_WS}/src/giskardpy/src/giskardpy/configs/behavior_tree_config.py
 # Copy contents of the repo into the image
 COPY --chown=${NB_USER}:users . /home/${NB_USER}/giskard_examples
 WORKDIR /home/${NB_USER}/giskard_examples
@@ -142,7 +95,6 @@ COPY --chown=${NB_USER}:users binder/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start-notebook.sh"]
 
-RUN pip install --upgrade jupyter-remote-desktop-proxy
 
 
 
