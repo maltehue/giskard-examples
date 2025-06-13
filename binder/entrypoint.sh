@@ -5,7 +5,7 @@ roslaunch --wait rvizweb rvizweb.launch config_file:=launch/rvizweb_config/hsr_m
 roslaunch --wait dlr_kitchen upload_dlr_kitchen.launch &
 #roslaunch --wait giskardpy_ros giskardpy_justin_standalone.launch &
 
-rviz -d /home/jovyan/giskard_examples/launch/rvizweb_config/bmp.rviz &
+# rviz -d /home/jovyan/giskard_examples/launch/rvizweb_config/bmp.rviz &
 
 jupyter lab workspaces import binder/vis-with-terminal.jupyterlab-workspace
 
