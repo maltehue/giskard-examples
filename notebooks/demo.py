@@ -58,7 +58,9 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
     pose = PoseStamped()
     pose.header.frame_id = 'map'
     pose.pose.orientation.w = 1
-    r = giskard.world.add_urdf(name='dlr_kitchen', urdf=rospy.get_param('kitchen_description'), pose=pose)
+    with open(file_path, 'r') as urdf_file:
+        urdf_str = urdf_file.read()
+    r = giskard.world.add_urdf(name='dlr_kitchen', urdf=urdf_str, pose=pose)
 
     # setup initial pose of the robot
     pose = PoseStamped()
