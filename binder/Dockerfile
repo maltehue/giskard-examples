@@ -3,7 +3,7 @@ FROM intel4coro/base-notebook:20.04-noetic
 # Install SWI Prolog
 # Source: https://www.swi-prolog.org/build/PPA.html
 USER root
-RUN apt-get install software-properties-common -y
+RUN apt-get install software-properties-common graphviz graphviz-dev -y
 RUN apt-add-repository -y ppa:swi-prolog/stable
 RUN apt update && \
     apt install -y swi-prolog*
