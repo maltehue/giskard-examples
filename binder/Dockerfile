@@ -1,5 +1,5 @@
 FROM intel4coro/base-notebook:20.04-noetic
-
+RUN cd
 # Install VNC server and XFCE desktop environment
 USER root
 RUN apt-get -y -qq update \
