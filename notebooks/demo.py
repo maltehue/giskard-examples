@@ -185,7 +185,7 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
     # this function loads all container names into the knowledge base as container entities
     def load_container(pl):
         fridge_list = [v.body.name.name for v in found_views if isinstance(v, Fridge)]
-        drawer_list = [v.body.name.name for v in found_views if isinstance(v, Drawer)]
+        drawer_list = [v.container.body.name.name for v in found_views if isinstance(v, Drawer)]
         for drawer in drawer_list:
             pl.assertz(f'container({drawer})')
             pl.assertz(f'drawer({drawer})')
