@@ -216,7 +216,7 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
         ('Query a knowledge base for all task request and state change pairs.', 'taskRequest(Request, StateChange).'),
         ('Extend the query to find motions that achieve the state change.', 'taskRequest(Request, StateChange),\n'
                                    'causes(Motion, StateChange, MotionParam).'),
-        ('Finalize the query to find a suitable body motion for the robot.', 'taskRequest(Request, StateChange),\n '
+        ('Finalize the query to find a suitable body motion for the robot. Try changing the Request to open_fridge to only open the fridge.', 'taskRequest(Request, StateChange),\n '
                                             'causes(Motion, StateChange, MotionParam),\n '
                                             'canPerform(Robot, Motion, MotionParam).')
     ]
