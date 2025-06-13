@@ -90,7 +90,8 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
         if isinstance(joint, bytes):
             joint = joint.decode('utf-8')
         if isinstance(handle, bytes):
-            handle = joint.decode('utf-8')
+            handle = handle.decode('utf-8')
+
         # marker_pub.publish(MarkerArray())
 
         giskard.motion_goals.add_joint_position_return_traj(goal_state={str(joint): float(goalState)}, root_link='map',
@@ -100,6 +101,7 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
         loc = giskard.monitors.add_local_minimum_reached()
         giskard.monitors.add_end_motion(mon2)
         giskard.monitors.add_cancel_motion(loc, Exception('local min'))
+        giskard.motion_goals.allow_all_collisions()
         res = giskard.projection()
 
         marker_pub.publish(joint_trajectory_to_marker_array(res.trajectory))
@@ -117,6 +119,8 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
             return False
         if isinstance(joint, bytes):
             joint = joint.decode('utf-8')
+        if isinstance(handle, bytes):
+            handle = handle.decode('utf-8')
         pose = PoseStamped()
         pose.header.frame_id = str(handle)
         pose.pose.position = Point(0, 0, 0)
