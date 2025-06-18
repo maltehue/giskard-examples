@@ -90,6 +90,8 @@ RUN git config --global --add safe.directory ${PWD}
 # Soft link the ROS workspace directory to the working directory
 # RUN ln -s ${ROS_WS} ${PWD}/ROS_WS
 
+ENV DISABLE_ROS1_EOL_WARNINGS=1
+
 # jupyterlab interface configuration
 COPY --chown=${NB_USER}:users binder/webapps.json ${ROS_WS}/src/rvizweb/webapps/app.json
 COPY --chown=${NB_USER}:users binder/entrypoint.sh /
