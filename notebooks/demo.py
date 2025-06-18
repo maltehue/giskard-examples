@@ -60,6 +60,7 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
     pose.pose.orientation.w = 1
     with open(file_path, 'r') as urdf_file:
         urdf_str = urdf_file.read()
+    giskard.world.clear()
     r = giskard.world.add_urdf(name='dlr_kitchen', urdf=urdf_str, pose=pose)
 
     # setup initial pose of the robot
