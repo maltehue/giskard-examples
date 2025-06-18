@@ -60,6 +60,7 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
     pose.pose.orientation.w = 1
     with open(file_path, 'r') as urdf_file:
         urdf_str = urdf_file.read()
+    giskard.world.clear()
     r = giskard.world.add_urdf(name='dlr_kitchen', urdf=urdf_str, pose=pose)
 
     # setup initial pose of the robot
@@ -172,19 +173,37 @@ def setup_demo(file_path='dlr_kitchen.urdf'):
     # this function returns the corresponding handle and joint for a container name
     def container_articulation(container, handle, joint):
         c = str(container)
-        container_instance = [v for v in found_views if
-                              (isinstance(v, Fridge) or isinstance(v, Container)) and v.body.name.name == c]
-        if len(container_instance) == 1:
-            instance_connections = [c.dof.name.name for c in world.connections if
-                                    (isinstance(c, RevoluteConnection) or isinstance(c, PrismaticConnection)) and
-                                    (c.parent == container_instance[0].body or c.child == container_instance[0].body)]
-            if len(instance_connections) == 0:
-                return False
-            handle_name = [v.body.name.name for v in found_views if isinstance(v, Handle) and c in v.body.name.name]
-            if len(handle_name) == 0:
-                return False
-            handle.unify(handle_name[0])
-            joint.unify(instance_connections[0])
+        def drawer_articulation(container):
+            drawer_instance = [v for v in found_views if
+                                  isinstance(v, Drawer) and v.container.body.name.name == container]
+            if len(drawer_instance) != 0:
+                handle = drawer_instance[0].handle.body.name.name
+                joint = [c.dof.name.name for c in world.connections if
+                                        (isinstance(c, RevoluteConnection) or isinstance(c, PrismaticConnection)) and
+                                        (c.parent == drawer_instance[0].container.body or c.child == drawer_instance[0].container.body)][0]
+                return handle, joint
+            return None, None
+    
+        def fridge_articulation(container):
+            fridge_instance = [v for v in found_views if
+                                  isinstance(v, Fridge) and v.body.name.name == container]
+            if len(fridge_instance) != 0:
+                handle = fridge_instance[0].door.handle.body.name.name
+                joint = [c.dof.name.name for c in world.connections if
+                                        (isinstance(c, RevoluteConnection) or isinstance(c, PrismaticConnection)) and
+                                        (c.parent == fridge_instance[0].body or c.child == fridge_instance[0].body)][0]
+                return handle, joint
+            return None, None
+    
+        handle_name, joint_name = drawer_articulation(c)
+        if handle_name:
+            handle.unify(handle_name)
+            joint.unify(joint_name)
+            return True
+        handle_name, joint_name = fridge_articulation(c)
+        if handle_name:
+            handle.unify(handle_name)
+            joint.unify(joint_name)
             return True
         return False
 
